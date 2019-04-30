@@ -1,0 +1,30 @@
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="signIn(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <h5>Вхід в Komunalka App</h5>
+        <div>
+          <label for="username">Ім'я користувача (логін):</label>
+          <input type="text" ngModel name="username" class="form-control" [ngClass]="{'is-invalid': userErrors['username']}" id="username" placeholder="Введіть ім'я користувача" required>
+          <div class="invalid-feedback">
+            {{userErrors['username']}}
+          </div>
+        </div>
+        <div>
+          <label for="password">Пароль:</label>
+          <span id="password-icon">
+            <i class="fa fa-2x" aria-hidden="true" [ngClass]="hidePassword ? 'fa-eye-slash' : 'fa-eye'" (click)="hidePassword = !hidePassword"></i>
+          </span>
+          <input ngModel name="password" class="form-control" [type]="hidePassword ? 'password' : 'text'" [ngClass]="{'is-invalid': userErrors['password']}" id="password" placeholder="Введіть пароль" required>
+          <div class="invalid-feedback">
+            {{userErrors['password']}}
+          </div>
+        </div>
+        <div id="login-actions">
+          <button class="btn btn-primary" type="submit">Вхід</button>
+          <a routerLink="/registration">Реєстрація</a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

@@ -1,0 +1,72 @@
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="updateUser(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Редагування профайлу користувача "{{user.username}}"</h5>
+              <hr>
+
+              <div>
+                <label for="first-name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Ім'я:</label>
+                <input type="text" [ngModel]="user.firstName" name="firstName" class="form-control" [ngClass]="{'is-invalid': userErrors['firstName']}" id="first-name">
+                <div class="invalid-feedback">
+                  {{userErrors['firstName']}}
+                </div>
+              </div>
+
+              <div>
+                <label for="last-name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Прізвище:</label>
+                <input type="text" [ngModel]="user.lastName" name="lastName" class="form-control" [ngClass]="{'is-invalid': userErrors['lastName']}" id="last-name">
+                <div class="invalid-feedback">
+                  {{userErrors['lastName']}}
+                </div>
+              </div>
+
+              <div>
+                <label for="email">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  E-mail:</label>
+                <input type="text" [ngModel]="user.email" name="email" class="form-control" [ngClass]="{'is-invalid': userErrors['email']}" id="email">
+                <div class="invalid-feedback">
+                  {{userErrors['email']}}
+                </div>
+              </div>
+
+              <div *ngIf="userService.isAdmin()">
+                <label for="role">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Ролі:</label>
+                <select [ngModel]="user.authorities" name="authorities" class="form-control" [ngClass]="{'is-invalid': userErrors['roleId']}" id="role" multiple>
+                  <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  {{userErrors['roleId']}}
+                </div>
+              </div>
+
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea [ngModel]="user.description" name="description" class="form-control" id="description"></textarea>
+              </div>
+
+              <div id="user-actions">
+                <button type="submit" class="btn btn-success">Оновити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+                <button type="button" class="btn btn-danger float-right" (click)="changePassword()">Змінити логін / пароль</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

@@ -1,0 +1,16 @@
+.button-separator {
+  display: inline-block !important;
+  width: 10px;
+}
+
+#funds-actions {
+  margin-top: 10px;
+}
+
+#funds-actions > button {
+  width: 130px;
+}
+
+mat-card-content > div > div > div > div {
+  margin-top: 10px;
+}

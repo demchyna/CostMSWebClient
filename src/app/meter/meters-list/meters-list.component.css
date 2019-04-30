@@ -1,0 +1,15 @@
+.meter-item {
+  background-color: rgba(209, 236, 241, 0.5);
+  margin-bottom: 5px;
+  cursor: pointer
+}
+
+#category-button-group {
+  float: right;
+  margin-top: -5px;
+}
+
+.button-separator {
+  display: inline-block;
+  width: 10px;
+}

@@ -1,0 +1,91 @@
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="createTariff(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Додати тариф до категорії "{{category.name}}"</h5>
+              <hr>
+              <div>
+                <label for="name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Назва тарифу:</label>
+                <input type="text" ngModel name="name" class="form-control" [ngClass]="{'is-invalid': tariffErrors['name']}" id="name" placeholder="Введіть назву тарифу" required>
+                <div class="invalid-feedback">
+                  {{tariffErrors['name']}}
+                </div>
+              </div>
+              <div class="container-fluid p-0">
+                <div class="row">
+                  <div class="col-4">
+                    <label for="rate">
+                      <span style="color: red; font-weight: bold;">*</span>
+                      Тариф:</label>
+                    <input type="text" ngModel name="rate" class="form-control" [ngClass]="{'is-invalid': tariffErrors['rate']}" id="rate" placeholder="Введіть значення тарифу" required>
+                    <div class="invalid-feedback">
+                      {{tariffErrors['rate']}}
+                    </div>
+                  </div>
+                  <div class="col-1"></div>
+                  <div class="col-3">
+                    <label for="currency">
+                      <span style="color: red; font-weight: bold;">*</span>
+                      Грошові одиниці:</label>
+                    <input type="text" ngModel name="currency" class="form-control" [ngClass]="{'is-invalid': tariffErrors['currency']}" id="currency" placeholder="Введіть одиниці" required>
+                    <div class="invalid-feedback">
+                      {{tariffErrors['currency']}}
+                    </div>
+                  </div>
+                  <div class="col-auto p-0">
+                    <h2 class="m-0 pt-4">/</h2>
+                  </div>
+                  <div class="col">
+                    <label for="unit">
+                      <span style="color: red; font-weight: bold;">*</span>
+                      Одиниці вимірювання:</label>
+                    <select [ngModel]="null" name="unit" class="form-control" [ngClass]="{'is-invalid': tariffErrors['unitId']}" id="unit" required>
+                      <option [ngValue]="null" selected [disabled]="true" hidden>Виберіть значення...</option>
+                      <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      {{tariffErrors['unitId']}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-fluid p-0">
+                <div class="row">
+                  <div class="col">
+                    <label for="begin-date">
+                      <span style="color: red; font-weight: bold;">*</span>
+                      Дата дії з:</label>
+                    <input type="date" ngModel name="beginDate" class="form-control" [ngClass]="{'is-invalid': tariffErrors['beginDate']}" id="begin-date" required>
+                    <div class="invalid-feedback">
+                      {{tariffErrors['beginDate']}}
+                    </div>
+                  </div>
+                  <div class="col-1"></div>
+                  <div class="col">
+                    <label for="end-date">Дата дії до:</label>
+                    <input type="date" ngModel name="endDate" class="form-control" id="end-date">
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea ngModel name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="tariff-actions">
+                <button type="submit" class="btn btn-success">Створити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

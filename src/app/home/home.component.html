@@ -1,0 +1,18 @@
+<div class="main-container">
+  <mat-card>
+    <mat-card-content>
+
+      <h5 (click)="categoriesList()" style="cursor: pointer; color: #0000b7;">
+        Список  категорій користувача
+        <span style="cursor: pointer; color: #000000" (click)="userInfo($event)">
+          "{{userService.currentUser.sub}}"
+        </span>
+      </h5>
+      <hr>
+      <p>
+        Назва / версія: <b>Cost Management System 1.0.0-Beta</b><br>Розробник: <b>Микола Демчина</b><br>E-mail: <b>kdemchyna@gmail.com</b>
+      </p>
+
+    </mat-card-content>
+  </mat-card>
+</div>

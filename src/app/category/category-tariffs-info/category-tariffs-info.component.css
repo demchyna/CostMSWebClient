@@ -1,0 +1,8 @@
+.main-container {
+  width: 100%;
+}
+
+#add-tariff-button {
+  float: right;
+  margin-top: -40px;
+}

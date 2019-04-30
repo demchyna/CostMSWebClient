@@ -1,0 +1,59 @@
+
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="updateMeter(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Редагування лічильника з категорії "{{category.name}}"</h5>
+              <hr>
+              <div>
+                <label for="name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Назва лічильника:</label>
+                <input type="text" [ngModel]="meter.name" name="name" class="form-control" [ngClass]="{'is-invalid': meterErrors['name']}" id="name" placeholder="Введіть назву лічильника" required>
+                <div class="invalid-feedback">
+                  {{meterErrors['name']}}
+                </div>
+              </div>
+              <div>
+                <label for="unit">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Одиниці вимірювання:</label>
+                <select [ngModel]="units[currentUnitId]" name="unit" class="form-control" [ngClass]="{'is-invalid': meterErrors['unitId']}" id="unit" required>
+                  <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  {{meterErrors['unitId']}}
+                </div>
+              </div>
+              <div>
+                <label for="category">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Категорія:</label>
+                <select [ngModel]="categories[currentCategoryId]" name="category"  class="form-control" [ngClass]="{'is-invalid': meterErrors['categoryId']}" id="category" required>
+                  <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  {{meterErrors['categoryId']}}
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea [ngModel]="meter.description" name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="meter-actions">
+                <button type="submit" class="btn btn-success">Оновити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

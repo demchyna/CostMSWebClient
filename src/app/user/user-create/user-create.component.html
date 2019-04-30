@@ -1,0 +1,73 @@
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="registerUser(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <h5>Реєстрація нового користувача</h5>
+        <div>
+          <label for="username">
+            <span style="color: red; font-weight: bold;">*</span>
+            Ім'я користувача (логін):</label>
+          <input type="text" ngModel name="username" class="form-control" [ngClass]="{'is-invalid': userErrors['username']}" id="username" placeholder="Введіть ім'я користувача" required>
+          <div class="invalid-feedback">
+            {{userErrors['username']}}
+          </div>
+        </div>
+        <div>
+          <label for="password">
+            <span style="color: red; font-weight: bold;">*</span>
+            Пароль:</label>
+          <span class="password-icon">
+            <i class="fa fa-2x" aria-hidden="true" [ngClass]="hidePassword ? 'fa-eye-slash' : 'fa-eye'" (click)="hidePassword = !hidePassword"></i>
+          </span>
+          <input type="password" ngModel name="password" [type]="hidePassword ? 'password' : 'text'" class="form-control" [ngClass]="{'is-invalid': userErrors['password']}" id="password" placeholder="Введіть пароль" required>
+          <div class="invalid-feedback">
+            {{userErrors['password']}}
+          </div>
+        </div>
+        <div>
+          <label for="confirm">
+            <span style="color: red; font-weight: bold;">*</span>
+            Підтвердження паролю:</label>
+          <span class="password-icon">
+            <i class="fa fa-2x" aria-hidden="true" [ngClass]="hideConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="hideConfirmPassword = !hideConfirmPassword"></i>
+          </span>
+          <input type="password" ngModel name="confirm" [type]="hideConfirmPassword ? 'password' : 'text'" class="form-control" [ngClass]="{'is-invalid': userErrors['confirm']}" id="confirm" placeholder="Введіть підтвердження" required>
+          <div class="invalid-feedback">
+            {{userErrors['confirm']}}
+          </div>
+        </div>
+        <div>
+          <label for="first-name">
+            <span style="color: red; font-weight: bold;">*</span>
+            Ім'я:</label>
+          <input type="text" ngModel name="firstName" class="form-control" [ngClass]="{'is-invalid': userErrors['firstName']}" id="first-name" placeholder="Введіть ім'я" required>
+          <div class="invalid-feedback">
+            {{userErrors['firstName']}}
+          </div>
+        </div>
+        <div>
+          <label for="last-name">
+            <span style="color: red; font-weight: bold;">*</span>
+            Прізвище:</label>
+          <input type="text" ngModel name="lastName" class="form-control" [ngClass]="{'is-invalid': userErrors['lastName']}" id="last-name" placeholder="Введіть прізвище" required>
+          <div class="invalid-feedback">
+            {{userErrors['lastName']}}
+          </div>
+        </div>
+        <div>
+          <label for="email">
+            <span style="color: red; font-weight: bold;">*</span>
+            E-mail:</label>
+          <input type="text" ngModel name="email" class="form-control" [ngClass]="{'is-invalid': userErrors['email']}" id="email" placeholder="Введіть E-mail" required>
+          <div class="invalid-feedback">
+            {{userErrors['email']}}
+          </div>
+        </div>
+        <div id="registration-actions">
+          <button type="submit" class="btn btn-success d-inline w-100 mb-2 mt-2">Створити</button>
+          <button type="reset" class="btn btn-primary d-inline w-100">Очистити</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

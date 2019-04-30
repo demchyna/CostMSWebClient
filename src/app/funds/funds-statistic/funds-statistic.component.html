@@ -1,0 +1,54 @@
+<div class="main-container">
+  <mat-card>
+    <mat-card-content>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="d-none d-md-block col-md-1 col-lg-1 col-xl-2"></div>
+          <div class="col-sm-12 col-md-10 col-lg-9 col-xl-8">
+            <h5>Графік доходів / витрат</h5>
+
+            <div class="funds-button">
+              <div ngbDropdown #filterDropdown="ngbDropdown" placement="bottom-right" class="d-inline-block" autoClose="outside">
+                <button class="btn btn-sm btn-warning dropdown-toggle" id="dropdownMenuButton" ngbDropdownToggle>
+                  <i class="fa fa-filter"></i>
+                  &nbsp;Фільтр
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownMenuButton" id="date-filter">
+
+                  <div class="px-4 pt-3 pb-1">
+                    <ngb-datepicker [(ngModel)]="beginDate" [minDate]="beginMinDate" [maxDate]="beginMaxDate" class="d-inline-block"></ngb-datepicker>
+                    <div class="button-separator d-inline-block"></div>
+                    <ngb-datepicker [(ngModel)]="endDate" [minDate]="endMinDate" [maxDate]="endMaxDate" class="d-inline-block"></ngb-datepicker>
+                  </div>
+
+                  <div class="dropdown-divider"></div>
+
+                  <div class="mx-auto" style="width: 185px">
+                    <button class="btn btn-success btn-sm d-inline-block" (click)="filterApply(filterDropdown)">Застосувати</button>
+                    <div class="button-separator d-inline-block"></div>
+                    <button class="btn btn-primary btn-sm d-inline-block" (click)="filterReset(filterDropdown)">Скинути</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+              <canvas baseChart #baseChart="base-chart"
+                      [datasets]="barChartData"
+                      [labels]="barChartLabels"
+                      [options]="barChartOptions"
+                      [legend]="barChartLegend"
+                      [chartType]="barChartType">
+              </canvas>
+
+          </div>
+          <div class="d-none d-md-block col-md-1 col-lg-1 col-xl-2"></div>
+        </div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>

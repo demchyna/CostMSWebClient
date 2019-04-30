@@ -1,0 +1,17 @@
+.main-container {
+  width: 100%;
+}
+
+.funds-button {
+  float: right;
+  margin-top: -35px;
+}
+
+.button-separator {
+  display: inline-block !important;
+  width: 10px;
+}
+
+#date-filter {
+  min-width: max-content;
+}

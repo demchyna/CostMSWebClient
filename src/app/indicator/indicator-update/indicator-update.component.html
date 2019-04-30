@@ -1,0 +1,64 @@
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="updateIndicator(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Редагування показника для лічильника "{{meter.name}}"</h5>
+              <hr>
+              <div>
+                <label for="current">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Поточний показник:</label>
+                <input type="number" [ngModel]="indicator.current" name="current" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['current']}" id="current" placeholder="Введіть показник" required>
+                <div class="invalid-feedback">
+                  {{indicatorErrors['current']}}
+                </div>
+              </div>
+              <div>
+                <label for="date">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Дата фіксації:</label>
+                <input type="date" [ngModel]="indicator.date" name="date" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['date']}" id="date" required>
+                <div class="invalid-feedback">
+                  {{indicatorErrors['date']}}
+                </div>
+              </div>
+              <div>
+                <label for="tariff">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Тариф:</label>
+                <select [ngModel]="tariffs[currentTariffId]" name="tariff" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['tariffId']}" id="tariff" required>
+                  <option *ngFor="let tariff of tariffs" [ngValue]="tariff">{{tariff.name}} / {{tariff.rate}} {{tariff.currency}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  {{indicatorErrors['tariffId']}}
+                </div>
+              </div>
+              <div>
+                <label for="payment">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Сплачено:</label>
+                <input type="number" [ngModel]="indicator.payment" name="payment" class="form-control" [ngClass]="{'is-invalid': indicatorErrors['payment']}" id="payment" placeholder="Введіть суму" required>
+                <div class="invalid-feedback">
+                  {{indicatorErrors['payment']}}
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea [ngModel]="indicator.description" name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="indicator-actions">
+                <button type="submit" class="btn btn-success">Оновити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

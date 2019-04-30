@@ -1,0 +1,8 @@
+.button-separator {
+  display: inline-block !important;
+  width: 10px;
+}
+
+.indicator-value {
+  font-size: 1.1em;
+}

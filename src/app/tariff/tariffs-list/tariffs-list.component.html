@@ -1,0 +1,147 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead class="table-sm">
+      <tr class="table-secondary">
+        <th class="text-center align-middle" scope="col" rowspan="3">&nbsp;#&nbsp;</th>
+        <th class="text-center align-middle" scope="col" rowspan="2" [class.active]="order === 'name'" (click)="setOrder('name')">
+          <span class="sort-icons-container">
+          <span [hidden]="reverse || !(order === 'name')">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse || !(order === 'name')">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'name'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+          Назва тарифу
+        </th>
+        <th class="text-center align-middle" scope="col" rowspan="2" colspan="2" [class.active]="order === 'rate'" (click)="setOrder('rate')">
+          <span class="sort-icons-container">
+          <span [hidden]="reverse || !(order === 'rate')">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse || !(order === 'rate')">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'rate'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+          Тариф
+        </th>
+        <th class="text-center align-middle" scope="col" colspan="2">Дата дії тарифу</th>
+        <th class="text-center align-middle" scope="col" rowspan="3" colspan="2">Редагувати&nbsp;/ Видалити</th>
+      </tr>
+      <tr class="table-secondary">
+        <th class="text-center align-middle" scope="col" [class.active]="order === 'beginDate'" (click)="setOrder('beginDate')">
+          <span class="sort-icons-container">
+          <span [hidden]="reverse || !(order === 'beginDate')">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse || !(order === 'beginDate')">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'beginDate'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+          діє з
+        </th>
+        <th class="text-center align-middle" scope="col" [class.active]="order === 'endDate'" (click)="setOrder('endDate')">
+          <span class="sort-icons-container">
+          <span [hidden]="reverse || !(order === 'endDate')">
+            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="!reverse || !(order === 'endDate')">
+            <i class="fa fa-sort-asc" aria-hidden="true"></i>
+          </span>
+          <span [hidden]="order === 'endDate'" class="sort-icon">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </span>
+          діє до
+        </th>
+      </tr>
+      <tr class="table-secondary">
+        <td>
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="nameValue" placeholder="Назва">
+          </div>
+        </td>
+        <td colspan="2">
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="rateValue" placeholder="Тариф">
+          </div>
+        </td>
+        <td>
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="beginDateValue" placeholder="Дата">
+          </div>
+        </td>
+        <td>
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="endDateValue" placeholder="Дата">
+          </div>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tariff of tariffs
+          | searchFilter: 'name' : nameValue
+          | searchFilter: 'rate' : rateValue
+          | searchFilter: 'beginDate' : beginDateValue
+          | searchFilter: 'endDate' : endDateValue
+          | orderBy: order:reverse:'case-insensitive'
+          | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
+          index as i;
+          even as isEven"
+          [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }"
+          (click)="selectedRow(tariff.id)"
+          align="center" style="cursor: pointer">
+        <td class="tariff-value font-weight-bold">
+          {{itemsNumber*(currentPage-1)+(i+1)}}
+        </td>
+        <td>{{tariff.name}}</td>
+        <td class="tariff-value font-weight-bold">{{tariff.rate}}</td>
+        <td>{{tariff.currency}}&nbsp;/&nbsp;{{tariff.unitName}}</td>
+        <td>{{dateFormatter(tariff.beginDate)}}</td>
+        <td>{{dateFormatter(tariff.endDate)}}</td>
+        <td colspan="2">
+          <button class="btn btn-primary btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="editTariff(tariff.id, $event)">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-primary btn-sm d-none d-xl-inline-block" (click)="editTariff(tariff.id, $event)">
+            Редагувати
+          </button>
+          <div class="button-separator d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none"></div>
+          <button class="btn btn-danger btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="deleteTariff(tariff.id, $event)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-danger btn-sm d-none d-xl-inline-block" (click)="deleteTariff(tariff.id, $event)">
+            Видалити
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+
+<pagination-controls class="tariff-pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна" style="display: inline-block"></pagination-controls>
+
+<div class="float-right">
+  <label for="itemsNumber" class="d-none d-sm-inline-block">Записів на сторінку:&nbsp;&nbsp;</label>
+  <select class="form-control-sm" [(ngModel)]="itemsNumber" name="itemsNumber" id="itemsNumber">
+    <option *ngFor="let number of [3,5,10,20,50]">{{number}}</option>
+    <option [ngValue]="maxIntegerValue">Всі</option>
+  </select>
+</div>
+
+<!--<br>-->
+
+<!--<div class="">-->
+  <!--<button class="btn btn-primary mx-auto" (click)="addTariff()" id="tariff-button">Додати тариф</button>-->
+<!--</div>-->
+

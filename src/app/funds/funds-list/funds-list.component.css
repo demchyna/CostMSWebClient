@@ -1,0 +1,109 @@
+.main-container {
+  width: 100%;
+}
+
+.funds-button {
+  float: right;
+  margin-top: -35px;
+}
+
+th {
+  cursor: pointer;
+}
+th span {
+  visibility: hidden;
+}
+th.active {
+  color: #000000;
+}
+th.active span {
+  visibility: visible;
+}
+
+
+.income {
+  background-color: rgba(33, 136, 56, 0.3);
+}
+
+.income:hover {
+  background-color: rgba(33, 136, 56, 0.4);
+}
+
+.outlay {
+  background-color: rgba(200, 35, 51, 0.3);
+}
+
+.outlay:hover {
+  background-color: rgba(200, 35, 51, 0.4);
+}
+
+
+.funds-pagination /deep/ .ngx-pagination {
+  padding-left: 0;
+  display: inline-block;
+  border: #E9ECEF solid 1px;
+  border-radius: 3px;
+  height: 31px;
+}
+
+.funds-pagination /deep/ .ngx-pagination .current {
+  background: #007BFF;
+  border: #007BFF solid 1px;
+}
+
+.funds-pagination /deep/ .ngx-pagination .current:hover {
+  background: #007BFF;
+  border: #007BFF solid 1px;
+}
+
+.funds-pagination /deep/ .ngx-pagination > li {
+  border-left: #E9ECEF solid 1px;
+  border-right: #E9ECEF solid 1px;
+  height: 30px;
+}
+
+.funds-pagination /deep/ .ngx-pagination > li:hover {
+  background-color: #E6E6E6;
+  height: 30px;
+}
+
+.funds-pagination /deep/ .ngx-pagination .pagination-next {
+  border-right: none;
+}
+
+.funds-pagination /deep/ .ngx-pagination .disabled:hover {
+  background: none;
+}
+
+.input-small {
+  height: 20px;
+  width: 100%;
+}
+
+.button-separator {
+  display: inline-block !important;
+  width: 10px;
+}
+
+.sort-icons-container {
+  display: inline-block;
+  width: 15px;
+}
+
+th span .sort-icon {
+  visibility: visible;
+}
+
+.funds-value {
+  font-size: 1.1em;
+}
+
+/deep/ .previous-funds-tooltip {
+  font-size: 0.9em;
+  background: #E0A800;
+}
+
+#itemsNumber {
+  width: 60px;
+}
+

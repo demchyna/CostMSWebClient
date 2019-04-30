@@ -1,0 +1,80 @@
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="updateFunds(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Редагування існуючих
+                <span *ngIf="type === fundsType.INCOME">доходів</span>
+                <span *ngIf="type === fundsType.OUTLAY">витрат</span>
+              </h5>
+              <hr>
+              <div>
+                <label for="date">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Дата:
+                </label>
+                <input type="date" [ngModel]="funds.date" name="date" class="form-control" [ngClass]="{'is-invalid': fundsErrors['date']}" id="date" required>
+                <div class="invalid-feedback">
+                  {{fundsErrors['date']}}
+                </div>
+              </div>
+              <div class="container-fluid p-0">
+                <div class="row">
+                  <div class="col-6">
+                    <div>
+                      <label for="value">
+                        <span style="color: red; font-weight: bold;">*</span>
+                        Значення:
+                      </label>
+                      <input type="number" [ngModel]="funds.value" name="value" class="form-control" [ngClass]="{'is-invalid': fundsErrors['payment']}" id="value" placeholder="Введіть суму" required>
+                      <div class="invalid-feedback">
+                        {{fundsErrors['value']}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-1"></div>
+                  <div class="col-5">
+                    <div>
+                      <label for="currency">
+                        <span style="color: red; font-weight: bold;">*</span>
+                        Грошові одиниці:
+                      </label>
+                      <input type="text" [ngModel]="funds.currency" name="currency" class="form-control" [ngClass]="{'is-invalid': fundsErrors['name']}" id="currency" placeholder="Введіть одиниці" required>
+                      <div class="invalid-feedback">
+                        {{fundsErrors['currency']}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label for="source">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Джерело
+                  <span *ngIf="type === fundsType.INCOME">доходів</span>
+                  <span *ngIf="type === fundsType.OUTLAY">витрат</span>:
+                </label>
+                <textarea [ngModel]="funds.source" name="source" class="form-control" [ngClass]="{'is-invalid': fundsErrors['name']}" id="source" [placeholder]="(type === fundsType.INCOME)  ? 'Введіть джерело доходів' : 'Введіть джерело витрат'" required></textarea>
+                <div class="invalid-feedback">
+                  {{fundsErrors['source']}}
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea [ngModel]="funds.description" name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="funds-actions">
+                <button type="submit" class="btn btn-success">Оновити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

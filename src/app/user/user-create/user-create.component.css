@@ -1,0 +1,33 @@
+.main-container {
+  margin: 0 auto;
+  width: max-content;
+}
+
+mat-card {
+  width: max-content;
+}
+
+input {
+  width: 320px;
+  min-width: 300px;
+}
+
+.invalid-feedback {
+  max-width: 320px;
+}
+
+#registration-actions {
+  margin-top: 10px;
+}
+
+.password-icon {
+  position: absolute;
+  left: 307px;
+  display: flex;
+  height: 37px;
+  align-items: center;
+}
+
+mat-card-content > div {
+  margin-top: 10px;
+}

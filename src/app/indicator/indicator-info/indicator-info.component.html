@@ -1,0 +1,75 @@
+<div class="main-container">
+  <mat-card>
+    <mat-card-content>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+          <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+            <h5>Інформація по показнику для лічильника "{{meter.name}}"</h5>
+            <br>
+            <table class="table table-hover mb-0">
+              <tbody>
+                <tr>
+                  <th class="align-middle" scope="row">Дата фіксації показів:</th>
+                  <td>{{dateFormatter(indicator.date)}}</td>
+                </tr>
+                <tr>
+                  <th class="align-middle" scope="row">Поточний показник:</th>
+                  <td>
+                    <span class="indicator-value font-weight-bold">
+                      {{indicator.current}} {{indicator.unitName}}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="align-middle" scope="row">Попередній показник:</th>
+                  <td>{{indicator.previous}} {{indicator.unitName}}</td>
+                </tr>
+                <tr>
+                  <th class="align-middle" scope="row">До оплати:</th>
+                  <td>
+                    <span class="indicator-value font-weight-bold">
+                      {{indicator.price}} {{tariff.currency}}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="align-middle" scope="row">Сплачено:</th>
+                  <td>
+                    <span class="indicator-value font-weight-bold">
+                      {{indicator.payment}} {{tariff.currency}}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="align-middle" scope="row">Тариф:</th>
+                  <td>
+                    <span class="indicator-value">
+                      {{tariff.rate}} {{tariff.currency}} / {{indicator.unitName}}
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="align-middle" scope="row">Дата початку дії тарифу:</th>
+                  <td>{{dateFormatter(tariff.beginDate)}}</td>
+                </tr>
+                <tr *ngIf="tariff.endDate">
+                  <th class="align-middle" scope="row">Дата закінчення дії тарифу:</th>
+                  <td>{{dateFormatter(tariff.endDate)}}</td>
+                </tr>
+                <tr *ngIf="indicator.description">
+                  <th class="align-middle" scope="row">Короткий опис:</th>
+                  <td>{{indicator.description}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <hr class="mt-0">
+            <button class="btn btn-primary" (click)="editIndicator(indicator.id)">Редагувати</button>
+            <div class="button-separator"></div>
+            <button class="btn btn-danger" (click)="deleteIndicator(indicator.id)">Видалити</button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

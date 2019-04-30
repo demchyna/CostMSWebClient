@@ -1,0 +1,145 @@
+<div class="main-container">
+  <mat-card>
+    <mat-card-content>
+      <h5>Список зареєстрованих користувачів</h5>
+      <hr>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="table-sm">
+            <tr class="table-secondary">
+              <th class="text-center align-middle" scope="col" rowspan="2">&nbsp;#&nbsp;</th>
+              <th class="text-center align-middle" scope="col" [class.active]="order === 'firstName'" (click)="setOrder('firstName')">
+                <span class="sort-icons-container">
+                  <span [hidden]="reverse || !(order === 'firstName')">
+                    <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="!reverse || !(order === 'firstName')">
+                    <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="order === 'firstName'" class="sort-icon">
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                  </span>
+                </span>
+                Ім'я
+              </th>
+              <th class="text-center align-middle" scope="col" [class.active]="order === 'lastName'" (click)="setOrder('lastName')">
+                <span class="sort-icons-container">
+                  <span [hidden]="reverse || !(order === 'lastName')">
+                    <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="!reverse || !(order === 'lastName')">
+                    <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="order === 'lastName'" class="sort-icon">
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                  </span>
+                </span>
+                Прізвище
+              </th>
+              <th class="text-center align-middle" scope="col" [class.active]="order === 'username'" (click)="setOrder('username')">
+                <span class="sort-icons-container">
+                  <span [hidden]="reverse || !(order === 'username')">
+                    <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="!reverse || !(order === 'username')">
+                    <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="order === 'username'" class="sort-icon">
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                  </span>
+                </span>
+                Логін
+              </th>
+              <th class="text-center align-middle" scope="col" [class.active]="order === 'email'" (click)="setOrder('email')">
+                <span class="sort-icons-container">
+                  <span [hidden]="reverse || !(order === 'email')">
+                    <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="!reverse || !(order === 'email')">
+                    <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="order === 'email'" class="sort-icon">
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                  </span>
+                </span>
+                E-mail
+              </th>
+              <th class="text-center align-middle" scope="col" colspan="2" rowspan="2">Операції</th>
+            </tr>
+            <tr class="table-secondary">
+              <td>
+                <div (click)="clickEvent($event)">
+                  <input type="search" class="input-small" [(ngModel)]="firstNameValue" placeholder="Ім'я">
+                </div>
+              </td>
+              <td>
+                <div (click)="clickEvent($event)">
+                  <input type="search" class="input-small" [(ngModel)]="lastNameValue" placeholder="Прізвище">
+                </div>
+              </td>
+              <td>
+                <div (click)="clickEvent($event)">
+                  <input type="search" class="input-small" [(ngModel)]="usernameValue" placeholder="Логін">
+                </div>
+              </td>
+              <td>
+                <div (click)="clickEvent($event)">
+                  <input type="search" class="input-small" [(ngModel)]="emailValue" placeholder="e-mail">
+                </div>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users
+                | searchFilter: 'firstName' : firstNameValue
+                | searchFilter: 'lastName' : lastNameValue
+                | searchFilter: 'username' : usernameValue
+                | searchFilter: 'email' : emailValue
+                | orderBy: order: reverse:'case-insensitive'
+                | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
+                index as i;
+                even as isEven"
+                [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }"
+                align="center">
+              <td>
+                <span class="user-value font-weight-bold">
+                  {{itemsNumber*(currentPage-1)+(i+1)}}
+                </span>
+              </td>
+              <td>{{user.firstName}}</td>
+              <td>{{user.lastName}}</td>
+              <td>{{user.username}}</td>
+              <td>{{user.email}}</td>
+              <td colspan="2" style="white-space: nowrap;">
+                <button class="btn btn-info btn-sm inline-block" (click)="selectedRow(user.id)">
+                  <i class="fa fa-info pr-1 pl-1" aria-hidden="true"></i>
+                </button>
+                <div class="button-separator inline-block"></div>
+                <button class="btn btn-warning btn-sm inline-block" (click)="categoriesList(user.id)">
+                  <i class="fa fa-list-ul" aria-hidden="true"></i>
+                </button>
+                <div class="button-separator inline-block"></div>
+                <button class="btn btn-primary btn-sm inline-block" (click)="editUser(user.id)">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <div class="button-separator inline-block"></div>
+                <button class="btn btn-danger btn-sm inline-block" (click)="deleteUser(user.id)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <pagination-controls class="user-pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна" style="display: inline-block"></pagination-controls>
+      <div class="float-right">
+        <label for="itemsNumber" class="d-none d-sm-inline-block">Записів на сторінку:&nbsp;&nbsp;</label>
+        <select class="form-control-sm" [(ngModel)]="itemsNumber" name="itemsNumber" id="itemsNumber">
+          <option *ngFor="let number of [3,5,10,20,50]">{{number}}</option>
+          <option [ngValue]="maxIntegerValue">Всі</option>
+        </select>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

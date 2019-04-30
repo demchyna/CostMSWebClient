@@ -1,0 +1,218 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead class="table-sm">
+      <tr class="table-secondary">
+        <th class="text-center align-middle" scope="col" rowspan="2">&nbsp;#&nbsp;</th>
+        <th class="text-center align-middle" scope="col" [class.active]="order === 'date'" (click)="setOrder('date')" id="test">
+          <span class="sort-icons-container">
+            <span [hidden]="reverse || !(order === 'date')">
+              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="!reverse || !(order === 'date')">
+              <i class="fa fa-sort-asc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="order === 'date'" class="sort-icon">
+              <i class="fa fa-sort" aria-hidden="true"></i>
+            </span>
+          </span>
+          Дата фіксації
+        </th>
+        <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'current'" (click)="setOrder('current')">
+          <span class="sort-icons-container">
+            <span [hidden]="reverse || !(order === 'current')">
+              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="!reverse || !(order === 'current')">
+              <i class="fa fa-sort-asc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="order === 'current'" class="sort-icon">
+              <i class="fa fa-sort" aria-hidden="true"></i>
+            </span>
+          </span>
+          Поточний показник</th>
+        <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'tariffRate'" (click)="setOrder('tariffRate')">
+          <span class="sort-icons-container">
+            <span [hidden]="reverse || !(order === 'tariffRate')">
+              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="!reverse || !(order === 'tariffRate')">
+              <i class="fa fa-sort-asc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="order === 'tariffRate'" class="sort-icon">
+              <i class="fa fa-sort" aria-hidden="true"></i>
+            </span>
+          </span>
+          Тариф
+        </th>
+        <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'price'" (click)="setOrder('price')">
+          <span class="sort-icons-container">
+            <span [hidden]="reverse || !(order === 'price')">
+              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="!reverse || !(order === 'price')">
+              <i class="fa fa-sort-asc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="order === 'price'" class="sort-icon">
+              <i class="fa fa-sort" aria-hidden="true"></i>
+            </span>
+          </span>
+          Вартість
+        </th>
+        <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'payment'" (click)="setOrder('payment')">
+          <span class="sort-icons-container">
+            <span [hidden]="reverse || !(order === 'payment')">
+              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="!reverse || !(order === 'payment')">
+              <i class="fa fa-sort-asc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="order === 'payment'" class="sort-icon">
+              <i class="fa fa-sort" aria-hidden="true"></i>
+            </span>
+          </span>
+          Сплачено
+        </th>
+        <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'status'" (click)="setOrder('status')">
+          <span class="sort-icons-container">
+            <span [hidden]="reverse || !(order === 'status')">
+              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="!reverse || !(order === 'status')">
+              <i class="fa fa-sort-asc" aria-hidden="true"></i>
+            </span>
+            <span [hidden]="order === 'status'" class="sort-icon">
+              <i class="fa fa-sort" aria-hidden="true"></i>
+            </span>
+          </span>
+          Заборгованість
+        </th>
+        <th class="text-center align-middle" scope="col" rowspan="2" colspan="2">Редагувати&nbsp;/ Видалити</th>
+      </tr>
+      <tr class="table-secondary">
+        <td>
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="indicatorDateValue" placeholder="Дата">
+          </div>
+        </td>
+        <td colspan="2">
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="indicatorCurrentValue" placeholder="Значення">
+          </div>
+        </td>
+        <td colspan="2">
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="tariffRateValue" placeholder="Тариф">
+          </div>
+        </td>
+        <td colspan="2">
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="indicatorPriceValue" placeholder="Вартість">
+          </div>
+        </td>
+        <td colspan="2">
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="indicatorPaymentValue" placeholder="Сума">
+          </div>
+        </td>
+        <td colspan="2">
+          <div (click)="clickEvent($event)">
+            <input type="search" class="input-small" [(ngModel)]="indicatorPaymentValue" placeholder="Сума">
+          </div>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let indicator of getFullIndicators()
+          | searchFilter: 'date' : indicatorDateValue
+          | searchFilter: 'current' : indicatorCurrentValue
+          | searchFilter: 'tariffRate' : tariffRateValue
+          | searchFilter: 'price' : indicatorPriceValue
+          | searchFilter: 'payment' : indicatorPaymentValue
+          | searchFilter: 'status' : indicatorStatusValue
+          | orderBy: order: reverse:'case-insensitive'
+          | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
+          index as i;
+          even as isEven"
+          [ngStyle]="{ 'background-color': isEven ? '' : '#F5F5F5' }"
+          (click)="selectedRow(indicator.id)"
+          align="center" style="cursor: pointer">
+        <td>
+          <span class="indicator-value font-weight-bold">
+            {{itemsNumber*(currentPage-1)+(i+1)}}
+          </span>
+        </td>
+        <td>{{dateFormatter(indicator.date)}}</td>
+        <td>
+          <span class="indicator-value font-weight-bold" matTooltip="Попередній показник: {{indicator.previous}} {{indicator.unitName}}"
+                matTooltipPosition="right" matTooltipClass="previous-indicator-tooltip">
+            {{indicator.current}}
+          </span>
+        </td>
+        <td>{{indicator.unitName}}</td>
+        <td>
+          <span class="indicator-value">
+            {{indicator.tariffRate}}
+          </span>
+        </td>
+        <td style="white-space: nowrap;">{{indicator.tariffCurrency}}&nbsp;/&nbsp;{{indicator.unitName}}</td>
+        <td>
+          <span class="indicator-value font-weight-bold">
+            {{indicator.price.toFixed(2)}}
+          </span>
+        </td>
+        <td>{{indicator.tariffCurrency}}</td>
+        <td>
+          <span class="indicator-value font-weight-bold">
+            {{indicator.payment.toFixed(2)}}
+          </span>
+        </td>
+        <td>{{indicator.tariffCurrency}}</td>
+        <td [ngClass]="indicator.status >= 0 ? 'table-success' : 'table-warning'" style="white-space: nowrap;">
+          <span class="indicator-value font-weight-bold">
+            <span *ngIf="indicator.status > 0">&#43;</span>
+            <span *ngIf="indicator.status < 0">&#8722;</span>
+            {{getFormattedStatus(indicator.status)}}
+          </span>
+        </td>
+        <td [ngClass]="indicator.status >= 0 ? 'table-success' : 'table-warning'">{{indicator.tariffCurrency}}</td>
+        <td colspan="2" style="white-space: nowrap;">
+          <button class="btn btn-primary btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="editIndicator(indicator.id, $event)">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-primary btn-sm d-none d-xl-inline-block" (click)="editIndicator(indicator.id, $event)">
+            Редагувати
+          </button>
+          <div class="button-separator d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none"></div>
+          <button class="btn btn-danger btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="deleteIndicator(indicator.id, $event)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-danger btn-sm d-none d-xl-inline-block" (click)="deleteIndicator(indicator.id, $event)">
+            Видалити
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+
+<pagination-controls class="indicator-pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна"></pagination-controls>
+
+<div class="float-right">
+  <label for="itemsNumber" class="d-none d-sm-inline-block">Записів на сторінку:&nbsp;&nbsp;</label>
+  <select class="form-control-sm" [(ngModel)]="itemsNumber" name="itemsNumber" id="itemsNumber">
+    <option *ngFor="let number of [3,5,10,20,50]">{{number}}</option>
+    <option [ngValue]="maxIntegerValue">Всі</option>
+  </select>
+</div>
+
+<div>
+  <button class="btn btn-primary d-xs-inline-block d-sm-none w-100 mt-1" (click)="addIndicator()">
+    Додати показник
+  </button>
+  <div class="mx-auto w-25">
+    <button class="btn btn-primary d-none d-sm-inline-block" (click)="addIndicator()">
+      Додати показник
+    </button>
+  </div>
+</div>

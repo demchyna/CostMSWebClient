@@ -1,0 +1,48 @@
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="createMeter(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Додати лічильник до категорії "{{category.name}}"</h5>
+              <hr>
+              <div>
+                <label for="name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Назва лічильника:</label>
+                <input type="text" ngModel name="name" class="form-control" [ngClass]="{'is-invalid': meterErrors['name']}" id="name" placeholder="Введіть назву лічильника" required>
+                <div class="invalid-feedback">
+                  {{meterErrors['name']}}
+                </div>
+              </div>
+              <div>
+                <label for="unit">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Одиниці вимірювання:</label>
+                <select [ngModel]="null" name="unit" class="form-control" [ngClass]="{'is-invalid': meterErrors['unitId']}" id="unit" required>
+                  <option [ngValue]="null" selected [disabled]="true" hidden>Виберіть значення...</option>
+                  <option *ngFor="let unit of units" [ngValue]="unit">{{unit.name}}</option>
+                </select>
+                <div class="invalid-feedback">
+                  {{meterErrors['unitId']}}
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea ngModel name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="meter-actions">
+                <button type="submit" class="btn btn-success">Створити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

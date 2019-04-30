@@ -1,0 +1,189 @@
+<div class="main-container">
+  <mat-card>
+    <mat-card-content>
+      <h5>Керування доходами / витратами</h5>
+
+      <div class="funds-button">
+        <button class="btn btn-success btn-sm d-inline-block" (click)="addIncomeFunds()">
+          <i class="fa fa-level-up"></i>
+          &nbsp;Внести доходи
+        </button>
+        <div class="button-separator d-inline-block"></div>
+        <button class="btn btn-danger btn-sm d-inline-block" (click)="addOutlayFunds()">
+          <i class="fa fa-level-down"></i>
+          &nbsp;Внести витрати
+        </button>
+        <div class="button-separator d-inline-block"></div>
+        <div class="button-separator d-inline-block"></div>
+        <button class="btn btn-info btn-sm d-inline-block" (click)="showFundsStatistic()">
+          <i class="fa fa-line-chart" aria-hidden="true"></i>
+          &nbsp;Статистика
+        </button>
+
+        <div class="button-separator d-inline-block"></div>
+        <div class="button-separator d-inline-block"></div>
+
+        <div ngbDropdown #filterDropdown="ngbDropdown" placement="bottom-right" class="d-inline-block" autoClose="outside">
+          <button class="btn btn-sm btn-warning dropdown-toggle" id="dropdownMenuButton" ngbDropdownToggle>
+            <i class="fa fa-filter"></i>
+            &nbsp;Фільтр
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+
+            <div class="pl-4 pt-3 pb-1">
+              <input type="checkbox" #incomeItem checked id="income-item">
+              <label class="pl-2" for="income-item">
+                Доходи
+              </label>
+            </div>
+
+            <div class="pl-4">
+              <input type="checkbox" #outlayItem checked id="outlay-item">
+              <label class="pl-2" for="outlay-item">
+                Витрати
+              </label>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <div class="pl-4 pb-1">
+              <button class="btn btn-success btn-sm" (click)="filterApply(filterDropdown, incomeItem, outlayItem)">Застосувати</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="table-sm">
+          <tr class="table-secondary">
+            <th class="text-center align-middle" scope="col" rowspan="2">&nbsp;#&nbsp;</th>
+            <th class="text-center align-middle" scope="col" [class.active]="order === 'date'" (click)="setOrder('date')" id="test">
+                <span class="sort-icons-container">
+                  <span [hidden]="reverse || !(order === 'date')">
+                    <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="!reverse || !(order === 'date')">
+                    <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="order === 'date'" class="sort-icon">
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                  </span>
+                </span>
+              Дата
+            </th>
+            <th class="text-center align-middle" scope="col" colspan="2" [class.active]="order === 'value'" (click)="setOrder('value')">
+                <span class="sort-icons-container">
+                  <span [hidden]="reverse || !(order === 'value')">
+                    <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="!reverse || !(order === 'value')">
+                    <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="order === 'value'" class="sort-icon">
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                  </span>
+                </span>
+              Сума
+            </th>
+            <th class="text-center align-middle" scope="col" [class.active]="order === 'source'" (click)="setOrder('source')">
+                <span class="sort-icons-container">
+                  <span [hidden]="reverse || !(order === 'source')">
+                    <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="!reverse || !(order === 'source')">
+                    <i class="fa fa-sort-asc" aria-hidden="true"></i>
+                  </span>
+                  <span [hidden]="order === 'source'" class="sort-icon">
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                  </span>
+                </span>
+              Джерело
+            </th>
+            <th class="text-center align-middle" scope="col" rowspan="2" colspan="2">Редагувати&nbsp;/ Видалити</th>
+          </tr>
+          <tr class="table-secondary">
+            <td>
+              <div (click)="clickEvent($event)">
+                <input type="search" class="input-small" [(ngModel)]="fundsDateValue" placeholder="Дата">
+              </div>
+            </td>
+            <td colspan="2">
+              <div (click)="clickEvent($event)">
+                <input type="search" class="input-small" [(ngModel)]="fundsCostValue" placeholder="Сума">
+              </div>
+            </td>
+            <td>
+              <div (click)="clickEvent($event)">
+                <input type="search" class="input-small" [(ngModel)]="fundsSourceValue" placeholder="Джерело">
+              </div>
+            </td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let atomicFunds of funds
+                | searchFilter: 'date' : fundsDateValue
+                | searchFilter: 'value' : fundsCostValue
+                | searchFilter: 'source' : fundsSourceValue
+                | fundsFilter: 'type' : fundsTypeValues
+                | orderBy: order: reverse:'case-insensitive'
+                | paginate: { itemsPerPage: itemsNumber, currentPage: currentPage };
+                index as i"
+
+              [ngClass]="{
+                'income': atomicFunds.type === fundsType.INCOME,
+                'outlay': atomicFunds.type === fundsType.OUTLAY
+              }"
+
+              (click)="selectedRow(atomicFunds.id)"
+              align="center" style="cursor: pointer">
+            <td>
+                <span class="funds-value font-weight-bold">
+                  {{itemsNumber*(currentPage-1)+(i+1)}}
+                </span>
+            </td>
+            <td>{{dateFormatter(atomicFunds.date)}}</td>
+            <td>
+                <span class="funds-value font-weight-bold">
+                  {{atomicFunds.value.toFixed(2)}}
+                </span>
+            </td>
+            <td>{{atomicFunds.currency}}</td>
+            <td>{{atomicFunds.source}}</td>
+            <td colspan="2" style="white-space: nowrap;">
+              <button class="btn btn-primary btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="editFunds(atomicFunds.id, $event)">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-primary btn-sm d-none d-xl-inline-block" (click)="editFunds(atomicFunds.id, $event)">
+                Редагувати
+              </button>
+              <div class="button-separator d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none"></div>
+              <button class="btn btn-danger btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="deleteFunds(atomicFunds.id, $event)">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-danger btn-sm d-none d-xl-inline-block" (click)="deleteFunds(atomicFunds.id, $event)">
+                Видалити
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+
+      <pagination-controls class="funds-pagination" (pageChange)="currentPage = $event" previousLabel="Попередня" nextLabel="Наступна"></pagination-controls>
+
+      <div class="float-right">
+        <label for="itemsNumber" class="d-none d-sm-inline-block">Записів на сторінку:&nbsp;&nbsp;</label>
+        <select class="form-control-sm" [(ngModel)]="itemsNumber" name="itemsNumber" id="itemsNumber">
+          <option *ngFor="let number of [3,5,10,20,50]">{{number}}</option>
+          <option [ngValue]="maxIntegerValue">Всі</option>
+        </select>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>

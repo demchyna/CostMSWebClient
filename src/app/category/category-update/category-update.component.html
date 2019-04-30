@@ -1,0 +1,35 @@
+<div class="main-container">
+  <form #data="ngForm" (ngSubmit)="updateCategory(data.value)">
+    <mat-card>
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
+            <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
+              <h5>Редагування категорії "{{categoryName}}"</h5>
+              <hr>
+              <div>
+                <label for="name">
+                  <span style="color: red; font-weight: bold;">*</span>
+                  Назва категорії:</label>
+                <input type="text" [ngModel]="category.name" name="name" class="form-control" [ngClass]="{'is-invalid': categoryErrors['name']}" id="name" placeholder="Введіть назву категорії" required>
+                <div class="invalid-feedback">
+                  {{categoryErrors['name']}}
+                </div>
+              </div>
+              <div>
+                <label for="description">Короткий опис:</label>
+                <textarea [ngModel]="category.description" name="description" class="form-control" id="description"></textarea>
+              </div>
+              <div id="category-actions">
+                <button type="submit" class="btn btn-success">Оновити</button>
+                <div class="button-separator"></div>
+                <button type="reset" class="btn btn-primary">Очистити</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

@@ -1,0 +1,81 @@
+th {
+  cursor: pointer;
+}
+th span {
+  visibility: hidden;
+}
+th.active {
+  color: #000000;
+}
+th.active span {
+  visibility: visible;
+}
+
+.tariff-pagination /deep/ .ngx-pagination {
+  padding-left: 0;
+  display: inline-block;
+  border: #E9ECEF solid 1px;
+  border-radius: 3px;
+  height: 31px;
+}
+
+.tariff-pagination /deep/ .ngx-pagination .current {
+  background: #007BFF;
+  border: #007BFF solid 1px;
+}
+
+.tariff-pagination /deep/ .ngx-pagination .current:hover {
+  background: #007BFF;
+  border: #007BFF solid 1px;
+}
+
+.tariff-pagination /deep/ .ngx-pagination > li {
+  border-left: #E9ECEF solid 1px;
+  border-right: #E9ECEF solid 1px;
+  height: 30px;
+}
+
+.tariff-pagination /deep/ .ngx-pagination > li:hover {
+  background-color: #E6E6E6;
+  height: 30px;
+}
+
+.tariff-pagination /deep/ .ngx-pagination .pagination-next {
+  border-right: none;
+}
+
+.tariff-pagination /deep/ .ngx-pagination .disabled:hover {
+  background: none;
+}
+
+.input-small {
+  height: 20px;
+  width: 100%;
+}
+
+.button-separator {
+  display: inline-block !important;
+  width: 10px;
+}
+
+.sort-icons-container {
+  display: inline-block;
+  width: 15px;
+}
+
+th span .sort-icon {
+  visibility: visible;
+}
+
+.tariff-value {
+  font-size: 1.1em;
+}
+
+#itemsNumber {
+  width: 60px;
+}
+
+#tariff-button {
+  width: 200px;
+  display: block;
+}

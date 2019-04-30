@@ -1,0 +1,55 @@
+<div class="main-container">
+  <mat-card>
+    <mat-card-content>
+      <h5 style="display: inline">Список доступних категорій
+        <span *ngIf="userId != userService.currentUser.id">користувача "{{user.username}}"</span>
+      </h5>
+      <div id="add-category-button-1">
+        <button class="btn btn-primary btn-sm d-xs-inline-block d-sm-none" (click)="addCategory()">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary btn-sm d-none d-sm-inline-block" (click)="addCategory()">
+          Додати категорію
+        </button>
+      </div>
+      <hr>
+      <div *ngFor="let category of categories; index as i" [attr.id]="'accordion-' + i">
+        <div class="card">
+          <div class="card-header" [attr.id]="'heading-' + i">
+            <h6 class="mb-0" style="cursor: pointer">
+              <span (click)="collapseStatuses[i] = !collapseStatuses[i]" class="collapsed item-align" data-toggle="collapse" [attr.data-target]="'#collapse-' + i" aria-expanded="false" [attr.aria-controls]="'collapse-' + i">
+                <i class="fa" [ngClass]="collapseStatuses[i] ? 'fa-chevron-down' : 'fa-chevron-right'" aria-hidden="true" id="collapse-icon"></i> <b>{{category.name}}</b>
+                <div id="category-button-group">
+                  <button class="btn btn-info btn-sm" (click)="infoCategory(category.id, $event)">
+                    <i class="fa fa-info pr-1 pl-1" aria-hidden="true"></i>
+                  </button>
+                  <div class="button-separator"></div>
+                  <button class="btn btn-primary btn-sm" (click)="editCategory(category.id, $event)">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </button>
+                  <div class="button-separator"></div>
+                  <button class="btn btn-danger btn-sm" (click)="deleteCategory(category.id, $event)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </span>
+            </h6>
+          </div>
+          <div [attr.id]="'collapse-' + i" class="collapse" [attr.aria-labelledby]="'heading-' + i" [attr.data-parent]="'#accordion-' + i">
+            <div class="card-body">
+              <app-meters-list [categoryId]="category.id"></app-meters-list>
+              <div id="meter-tariff-button-group">
+                <button class="btn btn-primary btn-sm" (click)="addMeter(category.id)">Додати лічильник</button>
+                <div class="button-separator"></div>
+                <button class="btn btn-success btn-sm" (click)="tariffsList(category.id)">Тарифи</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--<div id="add-category-button-2">-->
+        <!--<button class="btn btn-primary" (click)="addCategory()">Додати категорію</button>-->
+      <!--</div>-->
+    </mat-card-content>
+  </mat-card>
+</div>
