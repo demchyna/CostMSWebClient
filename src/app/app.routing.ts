@@ -52,11 +52,9 @@ const routes: Routes = [
     path: 'registration',
     component: UserCreateComponent
   },
-  {
-    path: 'user/all',
-    component: UsersListComponent,
-    canActivate: [AuthGuardService, AdminGuardService]
-  },
+
+
+
   {
     path: 'user/:id/info',
     component: UserInfoComponent,
@@ -73,94 +71,107 @@ const routes: Routes = [
     component: UserUpdateComponent,
     canActivate: [AuthGuardService]
   },
+
+
+
   {
-    path: 'user/:id/category',
+    path: 'user',
     children: [
       {
-        path: '',
-        component: CategoriesListComponent,
-        canActivate: [AuthGuardService],
+        path: 'all',
+        component: UsersListComponent,
+        canActivate: [AuthGuardService, AdminGuardService]
       },
       {
-        path: 'create',
-        component: CategoryCreateComponent,
-        canActivate: [AuthGuardService]
-      },
-      {
-        path: ':id/update',
-        component: CategoryUpdateComponent,
-        canActivate: [AuthGuardService]
-      },
-      {
-        path: ':id/info',
-        component: CategoryInfoComponent,
-        canActivate: [AuthGuardService]
-      },
-      {
-        path: ':id/tariff',
+        path: ':id/category',
         children: [
           {
             path: '',
-            component: CategoryTariffsInfoComponent,
-            canActivate: [AuthGuardService]
+            component: CategoriesListComponent,
+            canActivate: [AuthGuardService],
           },
           {
             path: 'create',
-            component: TariffCreateComponent,
+            component: CategoryCreateComponent,
             canActivate: [AuthGuardService]
           },
           {
             path: ':id/update',
-            component: TariffUpdateComponent,
+            component: CategoryUpdateComponent,
             canActivate: [AuthGuardService]
           },
           {
             path: ':id/info',
-            component: TariffInfoComponent,
-            canActivate: [AuthGuardService]
-          },
-        ]
-      },
-      {
-        path: ':id/meter',
-        children: [
-          {
-            path: 'create',
-            component: MeterCreateComponent,
+            component: CategoryInfoComponent,
             canActivate: [AuthGuardService]
           },
           {
-            path: ':id/update',
-            component: MeterUpdateComponent,
-            canActivate: [AuthGuardService]
-          },
-          {
-            path: ':id/info',
-            component: MeterInfoComponent,
-            canActivate: [AuthGuardService]
-          },
-          {
-            path: ':id/indicator',
+            path: ':id/tariff',
             children: [
               {
                 path: '',
-                component: MeterIndicatorsInfoComponent,
-                canActivate: [AuthGuardService],
+                component: CategoryTariffsInfoComponent,
+                canActivate: [AuthGuardService]
               },
               {
                 path: 'create',
-                component: IndicatorCreateComponent,
+                component: TariffCreateComponent,
                 canActivate: [AuthGuardService]
               },
               {
                 path: ':id/update',
-                component: IndicatorUpdateComponent,
+                component: TariffUpdateComponent,
                 canActivate: [AuthGuardService]
               },
               {
                 path: ':id/info',
-                component: IndicatorInfoComponent,
+                component: TariffInfoComponent,
                 canActivate: [AuthGuardService]
+              },
+            ]
+          },
+          {
+            path: ':id/meter',
+            children: [
+              {
+                path: 'create',
+                component: MeterCreateComponent,
+                canActivate: [AuthGuardService]
+              },
+              {
+                path: ':id/update',
+                component: MeterUpdateComponent,
+                canActivate: [AuthGuardService]
+              },
+              {
+                path: ':id/info',
+                component: MeterInfoComponent,
+                canActivate: [AuthGuardService]
+              },
+              {
+                path: ':id/indicator',
+                children: [
+                  {
+                    path: '',
+                    component: MeterIndicatorsInfoComponent,
+                    canActivate: [AuthGuardService],
+                  },
+                  {
+                    path: 'create',
+                    component: IndicatorCreateComponent,
+                    canActivate: [AuthGuardService]
+                  },
+                  {
+                    path: ':id/update',
+                    component: IndicatorUpdateComponent,
+                    canActivate: [AuthGuardService]
+                  },
+                  {
+                    path: ':id/info',
+                    component: IndicatorInfoComponent,
+                    canActivate: [AuthGuardService]
+                  }
+                ]
               }
             ]
           }
@@ -168,6 +179,9 @@ const routes: Routes = [
       }
     ]
   },
+
+
+
   {
     path: 'funds/user/:id',
     component: FundsListComponent,

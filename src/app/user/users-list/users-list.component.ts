@@ -10,6 +10,7 @@ import {AuthService} from '../../auth/auth.service';
 import {OrderPipe} from 'ngx-order-pipe';
 import {ConfirmComponent} from '../../confirm/confirm.component';
 import {MatDialog, MatDialogRef} from '@angular/material';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-users-list',
@@ -40,7 +41,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
                private authService: AuthService,
                private router: Router,
                private orderPipe: OrderPipe,
-               private dialog: MatDialog) {
+               private dialog: MatDialog,
+               private breadcrumbService: BreadcrumbService) {
 
      this.sortedUsers = this.orderPipe.transform(this.users, 'id');
   }
@@ -51,6 +53,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           this.users = response.body;
+          this.breadcrumbService.addFriendlyNameForRouteRegex('/user/all', 'Користувачі');
         }
       }, (appError: AppError) => {
           throw appError;

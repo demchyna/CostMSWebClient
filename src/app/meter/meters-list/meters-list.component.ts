@@ -80,8 +80,9 @@ export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
               this.deleteMeterSubscription = this.meterService.deleteMeter(meter)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
+                    const currentRoute = this.router.url;
                     this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-                      this.router.navigate(['/category/user/' + this.categoryId]));
+                      this.router.navigate([currentRoute]));
                   }
                 }, (appError: AppError) => {
                   throw appError;
