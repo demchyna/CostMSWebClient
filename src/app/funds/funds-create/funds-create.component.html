@@ -29,7 +29,7 @@
                         <span style="color: red; font-weight: bold;">*</span>
                         Значення:
                       </label>
-                      <input type="number" ngModel name="value" class="form-control" [ngClass]="{'is-invalid': fundsErrors['payment']}" id="value" placeholder="Введіть суму" required>
+                      <input type="number" ngModel name="value" class="form-control" [ngClass]="{'is-invalid': fundsErrors['value']}" id="value" placeholder="Введіть суму" required>
                       <div class="invalid-feedback">
                         {{fundsErrors['value']}}
                       </div>
@@ -42,7 +42,7 @@
                         <span style="color: red; font-weight: bold;">*</span>
                         Грошові одиниці:
                       </label>
-                      <input type="text" ngModel name="currency" class="form-control" [ngClass]="{'is-invalid': fundsErrors['name']}" id="currency" placeholder="Введіть одиниці" required>
+                      <input type="text" ngModel name="currency" class="form-control" [ngClass]="{'is-invalid': fundsErrors['currency']}" id="currency" placeholder="Введіть одиниці" required>
                       <div class="invalid-feedback">
                         {{fundsErrors['currency']}}
                       </div>
@@ -57,7 +57,7 @@
                   <span *ngIf="type === fundsType.INCOME">доходів</span>
                   <span *ngIf="type === fundsType.OUTLAY">витрат</span>:
                 </label>
-                <textarea ngModel name="source" class="form-control" [ngClass]="{'is-invalid': fundsErrors['name']}" id="source" [placeholder]="(type === fundsType.INCOME)  ? 'Введіть джерело доходів' : 'Введіть джерело витрат'" required></textarea>
+                <textarea ngModel name="source" class="form-control" [ngClass]="{'is-invalid': fundsErrors['source']}" id="source" [placeholder]="(type === fundsType.INCOME)  ? 'Введіть джерело доходів' : 'Введіть джерело витрат'" required></textarea>
                 <div class="invalid-feedback">
                   {{fundsErrors['source']}}
                 </div>

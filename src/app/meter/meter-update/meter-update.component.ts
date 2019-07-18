@@ -12,6 +12,7 @@ import Unit from '../../models/Unit';
 import Category from '../../models/Category';
 import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-meter-update',
@@ -41,7 +42,9 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
               private unitService: UnitService,
               private userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) {
+
     this.paramsSubscription = this.route.params.subscribe( params => this.meterId = params['id']);
   }
 
@@ -52,17 +55,18 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           this.meter = response.body;
 
+          this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/meter/[0-9]+/update$', 'Редагувати лічильник');
+
           this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.meter.categoryId)
             .subscribe((categoryResp: HttpResponse<any>) => {
               if (categoryResp) {
                 tokenSetter(categoryResp);
                 this.category = categoryResp.body;
 
-
                 this.getCategoryByUserIdSubscription = this.categoryService.getCategoryByUserId(this.category.userId)
-                  .subscribe((categoryResp: HttpResponse<any>) => {
-                    if (categoryResp) {
-                      this.categories = categoryResp.body;
+                  .subscribe((categoriesResp: HttpResponse<any>) => {
+                    if (categoriesResp) {
+                      this.categories = categoriesResp.body;
                       this.categories.map((category, index) => {
                         if (category.id === this.meter.categoryId) {
                           this.currentCategoryId = index;
@@ -72,9 +76,6 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
                   }, (appError: AppError) => {
                     throw appError;
                   });
-
-
-
               }
             }, (appError: AppError) => {
               throw appError;
@@ -93,9 +94,6 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
             }, (appError: AppError) => {
               throw appError;
             });
-
-
-
         }
       }, (appError: AppError) => {
         throw appError;
@@ -119,7 +117,7 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
-          this.router.navigate(['/meter/' + this.meterId + '/info']);
+          this.router.navigate([this.router.url.replace('update', 'info')]);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

@@ -26,8 +26,7 @@ export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
 
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
-  constructor(private meterService: MeterService, private userService: UserService, private router: Router, private dialog: MatDialog) {
-  }
+  constructor(private meterService: MeterService, private userService: UserService, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.meters = [];
@@ -48,17 +47,17 @@ export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   selectedMeter(meterId: number) {
-    this.router.navigate(['/meter/' + meterId + '/indicators/info']);
+    this.router.navigate([this.router.url + '/' + this.categoryId + '/meter/' + meterId + '/indicator']);
   }
 
   infoMeter(meterId: number, event) {
     event.stopPropagation();
-    this.router.navigate(['/meter/' + meterId + '/info']);
+    this.router.navigate([this.router.url + '/' + this.categoryId + '/meter/' + meterId + '/info']);
   }
 
   editMeter(meterId: number, event) {
     event.stopPropagation();
-    this.router.navigate(['/meter/' + meterId + '/update']);
+    this.router.navigate([this.router.url + '/' + this.categoryId + '/meter/' + meterId + '/update']);
   }
 
   deleteMeter(meterId: number, event) {

@@ -10,6 +10,7 @@ import Category from '../../models/Category';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmComponent} from '../../confirm/confirm.component';
 import User from '../../models/User';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-category-info',
@@ -32,7 +33,8 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
               public userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe(params => {
@@ -43,6 +45,7 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
             tokenSetter(categoryResp);
             this.category = categoryResp.body;
 
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/category/[0-9]+/info$', this.category.name);
 
             this.getUserByIdSubscription = this.userService.getUserById(this.category.userId)
               .subscribe((userResp: HttpResponse<any>) => {
@@ -62,7 +65,7 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
   }
 
   editCategory(categoryId: number) {
-    this.router.navigate(['/category/' + categoryId + '/update']);
+    this.router.navigate(['user/' + this.user.id + '/category/' + categoryId + '/update']);
   }
 
   deleteCategory(categoryId: number) {
@@ -83,7 +86,7 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
               this.deleteCategorySubscription = this.categoryService.deleteCategory(category)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
-                    this.router.navigate(['/category/user/' + this.user.id]);
+                    this.router.navigate(['/user/' + this.user.id + '/category']);
                   }
                 }, (appError: AppError) => {
                   throw appError;

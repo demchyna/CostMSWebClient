@@ -10,3 +10,16 @@
   height: 20px;
 }
 
+mat-card {
+  margin: 0;
+  padding: 0;
+
+}
+
+breadcrumb /deep/ ul.breadcrumb {
+  background-color: inherit;
+}
+
+breadcrumb /deep/ ul.breadcrumb > li {
+  cursor: pointer;
+}

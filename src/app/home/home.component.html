@@ -2,12 +2,26 @@
   <mat-card>
     <mat-card-content>
 
-      <h5 (click)="categoriesList()" style="cursor: pointer; color: #0000b7;">
-        Список  категорій користувача
-        <span style="cursor: pointer; color: #000000" (click)="userInfo($event)">
-          "{{userService.currentUser.sub}}"
-        </span>
-      </h5>
+      <div class="d-flex justify-content-around">
+        <div class="card text-center w-25 bg-light" (click)="fundsList()">
+          <div class="card-body pb-0">
+            <h6 class="card-title">Доходи / Витрати</h6>
+          </div>
+          <img src="assets/images/income-outlay.png" class="card-img-top px-3 pb-3 pt-0" alt="Income / Outlay">
+        </div>
+        <div class="card text-center w-25 bg-light" (click)="categoriesList()">
+          <div class="card-body pb-0">
+            <h6 class="card-title">Комунальні послуги</h6>
+          </div>
+          <img src="assets/images/home-payments.png" class="card-img-top px-3 pb-3 pt-0" alt="Home payments">
+        </div>
+        <div *ngIf="authService.isLoggedIn() && userService.isAdmin()" class="card text-center w-25 bg-light" (click)="usersList()">
+          <div class="card-body pb-0">
+            <h6 class="card-title">Користувачі</h6>
+          </div>
+          <img src="assets/images/users.png" class="card-img-top px-3 pb-3 pt-0" alt="Users">
+        </div>
+      </div>
       <hr>
       <p>
         Назва / версія: <b>Cost Management System 1.0.0-Beta</b><br>Розробник: <b>Микола Демчина</b><br>E-mail: <b>kdemchyna@gmail.com</b>

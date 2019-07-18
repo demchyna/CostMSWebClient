@@ -13,6 +13,7 @@ import Unit from '../../models/Unit';
 import {Subscription} from 'rxjs';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmComponent} from '../../confirm/confirm.component';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-meter-info',
@@ -39,7 +40,8 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -48,6 +50,8 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.meter = response.body;
+
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/meter/[0-9]+/info$', 'Лічильник "' + this.meter.name + '"');
 
             this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.meter.categoryId)
               .subscribe((categoryResp: HttpResponse<any>) => {
@@ -77,7 +81,7 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
   }
 
   editMeter(meterId: number) {
-    this.router.navigate(['/meter/' + meterId + '/update']);
+    this.router.navigate([this.router.url.replace('info', 'update')]);
   }
 
   deleteMeter(meterId: number) {

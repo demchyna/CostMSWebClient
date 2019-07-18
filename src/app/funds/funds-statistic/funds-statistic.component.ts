@@ -4,11 +4,11 @@ import {tokenSetter} from '../../helpers/http-request-helper';
 import AppError from '../../errors/app-error';
 import {FundsService} from '../funds.service';
 import {UserService} from '../../user/user.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {BaseChartDirective, Label} from 'ng2-charts';
-import {NgbDatepicker, NgbDateStruct, NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateStruct, NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-funds-statistic',
@@ -82,8 +82,6 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
   beginMaxDate: NgbDateStruct;
   endMinDate: NgbDateStruct;
   endMaxDate: NgbDateStruct;
-  beginStartDate: object;
-  endStartDate: object;
 
   constructor(private fundsService: FundsService,
               public userService: UserService,
@@ -113,68 +111,70 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
               }
             });
 
-            this.incomeData.forEach((item, index) => {
-              for (let i = index + 1; i < this.incomeData.length; i++) {
-                if (item[0] === this.incomeData[i][0]) {
-                  item[1] = item[1] + this.incomeData[i][1];
-                  this.incomeData.splice(i, 1);
-                }
-              }
-            });
-
-            this.outlayData.forEach((item, index) => {
-              for (let i = index + 1; i < this.outlayData.length; i++) {
-                if (item[0] === this.outlayData[i][0]) {
-                  item[1] = item[1] + this.outlayData[i][1];
-                  this.outlayData.splice(i, 1);
-                }
-              }
-            });
-
-            this.incomeData.forEach((incomeItem) => {
-              let equals = false;
-              this.outlayData.forEach((outlayItem) => {
-                if (incomeItem[0] === outlayItem[0]) {
-                  equals = true;
+            if (typeof this.incomeData !== 'undefined' && this.incomeData.length > 0) {
+              this.incomeData.forEach((item, index) => {
+                for (let i = index + 1; i < this.incomeData.length; i++) {
+                  if (item[0] === this.incomeData[i][0]) {
+                    item[1] = item[1] + this.incomeData[i][1];
+                    this.incomeData.splice(i, 1);
+                  }
                 }
               });
-              if (!equals) {
-                this.outlayData.push([incomeItem[0], null]);
-              }
-            });
 
-            this.outlayData.forEach((outlayItem) => {
-              let equals = false;
+              this.outlayData.forEach((item, index) => {
+                for (let i = index + 1; i < this.outlayData.length; i++) {
+                  if (item[0] === this.outlayData[i][0]) {
+                    item[1] = item[1] + this.outlayData[i][1];
+                    this.outlayData.splice(i, 1);
+                  }
+                }
+              });
+
               this.incomeData.forEach((incomeItem) => {
-                if (outlayItem[0] === incomeItem[0]) {
-                  equals = true;
+                let equals = false;
+                this.outlayData.forEach((outlayItem) => {
+                  if (incomeItem[0] === outlayItem[0]) {
+                    equals = true;
+                  }
+                });
+                if (!equals) {
+                  this.outlayData.push([incomeItem[0], null]);
                 }
               });
-              if (!equals) {
-                this.incomeData.push([outlayItem[0], null]);
-              }
-            });
 
-            this.incomeData.sort((a, b) => {
-              return a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0;
-            });
+              this.outlayData.forEach((outlayItem) => {
+                let equals = false;
+                this.incomeData.forEach((incomeItem) => {
+                  if (outlayItem[0] === incomeItem[0]) {
+                    equals = true;
+                  }
+                });
+                if (!equals) {
+                  this.incomeData.push([outlayItem[0], null]);
+                }
+              });
 
-            this.outlayData.sort((a, b) => {
-              return a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0;
-            });
+              this.incomeData.sort((a, b) => {
+                return a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0;
+              });
 
-            this.incomeData.forEach((item) => {
-              this.barChartLabels.push(item[0]);
-              this.incomeValues.push(item[1]);
-            });
+              this.outlayData.sort((a, b) => {
+                return a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0;
+              });
 
-            this.outlayData.forEach((item) => {
-              this.outlayValues.push(item[1]);
-            });
+              this.incomeData.forEach((item) => {
+                this.barChartLabels.push(item[0]);
+                this.incomeValues.push(item[1]);
+              });
 
-            this.beginDate = this.beginMinDate = this.endMinDate = this.getFormattedDate(this.incomeData[0][0].toString());
-            this.endDate = this.beginMaxDate = this.endMaxDate = this.getFormattedDate(this.incomeData[this.incomeData.length - 1][0]
-              .toString());
+              this.outlayData.forEach((item) => {
+                this.outlayValues.push(item[1]);
+              });
+
+              this.beginDate = this.beginMinDate = this.endMinDate = this.getFormattedDate(this.incomeData[0][0].toString());
+              this.endDate = this.beginMaxDate = this.endMaxDate = this.getFormattedDate(this.incomeData[this.incomeData.length - 1][0]
+                .toString());
+            }
           }
         }, (appError: AppError) => {
           throw appError;
@@ -240,13 +240,11 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
 
   private getFormattedDate(date: string): NgbDateStruct {
     const dateSegments = date.split('-');
-    const formattedDate: NgbDateStruct = {
+    return {
       day: parseInt(dateSegments[2], 10),
       month: parseInt(dateSegments[1], 10),
       year: parseInt(dateSegments[0], 10)
     };
-
-    return formattedDate;
   }
 
   ngOnDestroy(): void {

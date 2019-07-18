@@ -12,6 +12,7 @@ import Unit from '../../models/Unit';
 import {Subscription} from 'rxjs';
 import {UserService} from '../../user/user.service';
 import ValidationError from '../../models/ValidationError';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-tariff-create',
@@ -34,7 +35,8 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
               private unitService: UnitService,
               private userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -43,6 +45,9 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.category = response.body;
+
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/[0-9]+/tariff/create$', 'Додати');
+
           }
         }, (appError: AppError) => {
           throw appError;
@@ -82,7 +87,7 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
     this.createTariffSubscription = this.tariffService.createTariff(tariff)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/category/user/' + this.category.userId]);
+          this.router.navigate(['user/' + this.category.userId + '/category/' + this.category.id + '/tariff']);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

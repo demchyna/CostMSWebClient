@@ -11,6 +11,7 @@ import {OrderPipe} from 'ngx-order-pipe';
 import {changeDateFormat} from '../../helpers/date-format-helper';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmComponent} from '../../confirm/confirm.component';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-tariffs-list',
@@ -28,7 +29,6 @@ export class TariffsListComponent implements OnInit, OnDestroy {
   tariffs: Tariff[] = [];
   nameValue = '';
   rateValue = '';
-  descriptionValue = '';
   beginDateValue = '';
   endDateValue = '';
   order = 'name';
@@ -47,7 +47,8 @@ export class TariffsListComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private orderPipe: OrderPipe,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private breadcrumbService: BreadcrumbService) {
 
     this.sortedTariffs = this.orderPipe.transform(this.tariffs, 'name');
   }
@@ -59,6 +60,7 @@ export class TariffsListComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.tariffs = response.body;
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/category/[0-9]+/tariff$', 'Тарифи');
           }
         }, (appError: AppError) => {
           throw appError;
@@ -66,17 +68,13 @@ export class TariffsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  addTariff() {
-    this.router.navigate(['tariff/create/category/' + this.categoryId]);
-  }
-
   selectedRow(tariffId: number) {
-    this.router.navigate(['/tariff/' + tariffId + '/info']);
+    this.router.navigate([this.router.url + '/' + tariffId + '/info']);
   }
 
   editTariff(tariffId: number, $event) {
     $event.stopPropagation();
-    this.router.navigate(['/tariff/' + tariffId + '/update']);
+    this.router.navigate([this.router.url + '/' + tariffId + '/update']);
   }
 
   deleteTariff(tariffId: number, $event) {
@@ -99,8 +97,9 @@ export class TariffsListComponent implements OnInit, OnDestroy {
               this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
+                    const currentRoute = this.router.url;
                     this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-                      this.router.navigate(['category/' + this.categoryId + '/tariffs/info']));
+                      this.router.navigate([currentRoute]));
                   }
                 }, (appError: AppError) => {
                   throw appError;

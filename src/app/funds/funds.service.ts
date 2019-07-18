@@ -5,7 +5,6 @@ import {REST_API_URL} from '../helpers/http-request-helper';
 import {catchError} from 'rxjs/operators';
 import AppError from '../errors/app-error';
 import Funds, {FundsType} from '../models/Funds';
-import Tariff from '../models/Tariff';
 
 @Injectable()
 export class FundsService {

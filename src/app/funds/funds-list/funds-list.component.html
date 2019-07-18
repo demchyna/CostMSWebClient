@@ -4,29 +4,39 @@
       <h5>Керування доходами / витратами</h5>
 
       <div class="funds-button">
-        <button class="btn btn-success btn-sm d-inline-block" (click)="addIncomeFunds()">
+        <button class="btn btn-success btn-sm d-none d-xl-inline-block" (click)="addIncomeFunds()">
           <i class="fa fa-level-up"></i>
           &nbsp;Внести доходи
         </button>
+        <button class="btn btn-success btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="addIncomeFunds()">
+          <span>&nbsp;<i class="fa fa-level-up"></i>&nbsp;</span>
+        </button>
         <div class="button-separator d-inline-block"></div>
-        <button class="btn btn-danger btn-sm d-inline-block" (click)="addOutlayFunds()">
+        <button class="btn btn-danger btn-sm d-none d-xl-inline-block" (click)="addOutlayFunds()">
           <i class="fa fa-level-down"></i>
           &nbsp;Внести витрати
         </button>
+        <button class="btn btn-danger btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="addOutlayFunds()">
+         <span>&nbsp;<i class="fa fa-level-down"></i>&nbsp;</span>
+        </button>
         <div class="button-separator d-inline-block"></div>
         <div class="button-separator d-inline-block"></div>
-        <button class="btn btn-info btn-sm d-inline-block" (click)="showFundsStatistic()">
+        <button class="btn btn-info btn-sm d-none d-xl-inline-block" (click)="showFundsStatistic()">
           <i class="fa fa-line-chart" aria-hidden="true"></i>
           &nbsp;Статистика
         </button>
-
+        <button class="btn btn-info btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none" (click)="showFundsStatistic()">
+          <i class="fa fa-line-chart" aria-hidden="true"></i>
+        </button>
         <div class="button-separator d-inline-block"></div>
         <div class="button-separator d-inline-block"></div>
-
         <div ngbDropdown #filterDropdown="ngbDropdown" placement="bottom-right" class="d-inline-block" autoClose="outside">
-          <button class="btn btn-sm btn-warning dropdown-toggle" id="dropdownMenuButton" ngbDropdownToggle>
+          <button class="btn btn-warning btn-sm d-none d-xl-inline-block dropdown-toggle" id="dropdownMenuButton" ngbDropdownToggle>
             <i class="fa fa-filter"></i>
             &nbsp;Фільтр
+          </button>
+          <button class="btn btn-warning btn-sm d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-none dropdown-toggle" id="dropdownMenuButton" ngbDropdownToggle>
+            <i class="fa fa-filter"></i>
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
 
@@ -137,9 +147,7 @@
                 'income': atomicFunds.type === fundsType.INCOME,
                 'outlay': atomicFunds.type === fundsType.OUTLAY
               }"
-
-              (click)="selectedRow(atomicFunds.id)"
-              align="center" style="cursor: pointer">
+              align="center">
             <td>
                 <span class="funds-value font-weight-bold">
                   {{itemsNumber*(currentPage-1)+(i+1)}}

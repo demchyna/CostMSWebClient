@@ -62,7 +62,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   categoriesList(userId: number) {
-    this.router.navigate(['category/user/' + userId]);
+    this.router.navigate(['user/' + userId + '/category']);
   }
 
   editUser(userId: number) {

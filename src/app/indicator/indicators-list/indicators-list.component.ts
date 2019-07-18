@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {IndicatorService} from '../indicator.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';
 import AppError from '../../errors/app-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
@@ -12,6 +12,7 @@ import {Ng4LoadingSpinnerService} from 'ng4-loading-spinner';
 import {changeDateFormat} from '../../helpers/date-format-helper';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmComponent} from '../../confirm/confirm.component';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-indicators-list',
@@ -46,6 +47,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private indicatorService: IndicatorService,
               private router: Router,
+              private route: ActivatedRoute,
               private orderPipe: OrderPipe,
               private spinnerService: Ng4LoadingSpinnerService,
               private dialog: MatDialog) {
@@ -82,16 +84,16 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   addIndicator() {
-    this.router.navigate(['indicator/create/meter/' + this.meterProps.id]);
+    this.router.navigate([this.router.url + '/create']);
   }
 
   selectedRow(indicatorId: number) {
-    this.router.navigate(['/indicator/' + indicatorId + '/info']);
+    this.router.navigate([this.router.url + '/' + indicatorId + '/info']);
   }
 
   editIndicator(indicatorId: number, $event) {
     $event.stopPropagation();
-    this.router.navigate(['/indicator/' + indicatorId + '/update']);
+    this.router.navigate([this.router.url + '/' + indicatorId + '/update']);
   }
 
   deleteIndicator(indicatorId: number, $event) {
@@ -114,8 +116,9 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
               this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
+                    const currentRoute = this.router.url;
                     this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-                      this.router.navigate(['/meter/' + this.meterProps.id + '/indicators/info']));
+                      this.router.navigate([currentRoute]));
                   }
                 }, (appError: AppError) => {
                   throw appError;

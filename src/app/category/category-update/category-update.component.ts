@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {UserService} from '../../user/user.service';
 import ValidationError from '../../models/ValidationError';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-category-update',
@@ -28,7 +29,8 @@ export class CategoryUpdateComponent implements OnInit, OnDestroy {
   constructor(private categoryService: CategoryService,
               private userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) {
 
     this.paramsSubscription = this.route.params.subscribe( params => this.categoryId = params['id']);
   }
@@ -40,6 +42,7 @@ export class CategoryUpdateComponent implements OnInit, OnDestroy {
           tokenSetter(response);
           this.category = response.body;
           this.categoryName = this.category.name;
+          this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/category/[0-9]+/update$', 'Редагувати');
         }
       }, (appError: AppError) => {
         throw appError;
@@ -55,7 +58,7 @@ export class CategoryUpdateComponent implements OnInit, OnDestroy {
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
-          this.router.navigate(['/category/user/' + this.category.userId]);
+          this.router.navigate(['/user/' + this.category.userId + '/category']);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

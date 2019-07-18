@@ -11,6 +11,7 @@ import Unit from '../../models/Unit';
 import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
 import Category from '../../models/Category';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-tariff-update',
@@ -36,7 +37,8 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
               private tariffService: TariffService,
               private unitService: UnitService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) {
     this.paramsSubscription = this.route.params.subscribe( params => this.tariffId = params['id']);
   }
 
@@ -46,6 +48,8 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           this.tariff = response.body;
+
+          this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/tariff/[0-9]+/update', 'Редагувати');
 
           this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.tariff.categoryId)
             .subscribe((tariffResp: HttpResponse<any>) => {
@@ -96,7 +100,7 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
-          this.router.navigate(['/tariff/' + this.tariffId + '/info']);
+          this.router.navigate([this.router.url.replace('update', 'info')]);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

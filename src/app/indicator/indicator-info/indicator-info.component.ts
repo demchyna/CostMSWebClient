@@ -13,6 +13,7 @@ import {Subscription} from 'rxjs';
 import {changeDateFormat} from '../../helpers/date-format-helper';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmComponent} from '../../confirm/confirm.component';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-indicator-info',
@@ -40,7 +41,8 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
               private tariffService: TariffService,
               private route: ActivatedRoute,
               private router: Router,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -50,6 +52,8 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
             tokenSetter(response);
             this.indicator = response.body;
             this.indicator.price = parseFloat(this.indicator.price.toFixed(2));
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/indicator/[0-9]+/info$', 'Показник на ' +
+              this.dateFormatter(this.indicator.date));
 
             this.getTariffByIdSubscription = this.tariffService.getTariffById(this.indicator.tariffId)
               .subscribe((tariffResp: HttpResponse<any>) => {
@@ -79,7 +83,7 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
   }
 
   editIndicator(indicatorId: number) {
-    this.router.navigate(['/indicator/' + indicatorId + '/update']);
+    this.router.navigate([this.router.url.replace('info', 'update')]);
   }
 
   deleteIndicator(indicatorId: number) {
@@ -100,16 +104,17 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
               this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
-                    this.router.navigate(['/meter/' + this.meter.id + '/indicators/info']);
+                    const currentUserId = this.router.url.split('/')[1];
+                    const currentCategoryId = this.router.url.split('/')[3];
+                    this.router.navigate(['/user/' + currentUserId + '/category/'
+                      + currentCategoryId + '/meter/' + this.meter.id + '/indicator']);
                   }
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
       }
       }, (appError: AppError) => {
         throw appError;

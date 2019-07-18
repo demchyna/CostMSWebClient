@@ -11,6 +11,7 @@ import {Subscription} from 'rxjs';
 import {ConfirmComponent} from '../../confirm/confirm.component';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import User from '../../models/User';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-categories-list',
@@ -38,7 +39,8 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
               public userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
-              private dialog: MatDialog) {  }
+              private dialog: MatDialog,
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -49,7 +51,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
             tokenSetter(response);
             this.categories = response.body;
             this.collapseStatuses = new Array(this.categories.length).fill(false);
-
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/user/[0-9]+/category$', 'Категорії');
             this.getUserByIdSubscription = this.userService.getUserById(this.userId)
               .subscribe((userResp: HttpResponse<any>) => {
                 if (userResp) {
@@ -59,7 +61,6 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
               }, (appError: AppError) => {
                 throw appError;
               });
-
           }
         }, (appError: AppError) => {
           throw appError;
@@ -68,17 +69,17 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   }
 
   addCategory() {
-    this.router.navigate(['category/create/user/' + this.userId]);
+    this.router.navigate(['user/' + this.userId + '/category/create']);
   }
 
   infoCategory(categoryId: number, event) {
     event.stopPropagation();
-    this.router.navigate(['/category/' + categoryId + '/info']);
+    this.router.navigate([this.router.url + '/' + categoryId + '/info']);
   }
 
   editCategory(categoryId: number, event) {
     event.stopPropagation();
-    this.router.navigate(['/category/' + categoryId + '/update']);
+    this.router.navigate([this.router.url + '/' + categoryId + '/update']);
   }
 
   deleteCategory(categoryId: number, event) {
@@ -118,11 +119,11 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   }
 
   addMeter(categoryId: number) {
-    this.router.navigate(['meter/create/category/' + categoryId]);
+    this.router.navigate([this.router.url + '/' + categoryId + '/meter/create']);
   }
 
   tariffsList(categoryId: number) {
-    this.router.navigate(['category/' + categoryId + '/tariffs/info']);
+    this.router.navigate([this.router.url + '/' + categoryId + '/tariff']);
   }
 
   ngOnDestroy(): void {

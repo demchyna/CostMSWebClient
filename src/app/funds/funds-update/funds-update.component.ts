@@ -21,7 +21,6 @@ export class FundsUpdateComponent implements OnInit, OnDestroy {
   updateFundsSubscription: Subscription;
 
   fundsType = FundsType;
-  type: FundsType;
 
   funds: Funds = new Funds();
   private fundsId: number;

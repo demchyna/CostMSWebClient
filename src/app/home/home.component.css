@@ -1,3 +1,9 @@
 .main-container {
   width: 100%;
 }
+
+.bg-light:hover {
+  background-color: #e7ecf0 !important;
+  box-shadow: 3px 3px 3px #d8dde1;
+  cursor: pointer;
+}

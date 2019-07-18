@@ -12,6 +12,7 @@ import Tariff from '../../models/Tariff';
 import {Subscription} from 'rxjs';
 import {UserService} from '../../user/user.service';
 import ValidationError from '../../models/ValidationError';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-indicator-create',
@@ -37,7 +38,8 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
     private tariffService: TariffService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -46,6 +48,8 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.meter = response.body;
+
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/meter/[0-9]+/indicator/create$', 'Додати показник');
 
             this.getTariffByCategoryIdSubscription = this.tariffService.getTariffByCategoryId(this.meter.categoryId)
               .subscribe((resp: HttpResponse<any>) => {
@@ -93,7 +97,7 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
     this.createIndicatorSubscription = this.indicatorService.createIndicator(indicator)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/meter/' + indicator.meterId + '/indicators/info']);
+          this.router.navigate([this.router.url.substring(0, this.router.url.length - 7)]);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

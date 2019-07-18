@@ -11,6 +11,7 @@ import {Subscription} from 'rxjs';
 import {changeDateFormat} from '../../helpers/date-format-helper';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmComponent} from '../../confirm/confirm.component';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-tariff-info',
@@ -35,7 +36,8 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
               private categoryService: CategoryService,
               private route: ActivatedRoute,
               private router: Router,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -44,6 +46,8 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.tariff = response.body;
+
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/tariff/[0-9]+/info', this.tariff.name);
 
             this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.tariff.categoryId)
               .subscribe((categoryResp: HttpResponse<any>) => {
@@ -62,7 +66,7 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
   }
 
   editTariff(tariffId: number) {
-    this.router.navigate(['/tariff/' + tariffId + '/update']);
+    this.router.navigate([this.router.url.replace('info', 'update')]);
   }
 
   deleteTariff(tariffId: number) {
@@ -83,7 +87,8 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
               this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
-                    this.router.navigate(['category/' + this.category.id + '/tariffs/info']);
+                    const currentUserId = this.router.url.split('/')[1];
+                    this.router.navigate(['/user/' + currentUserId + '/category/' + this.category.id + '/tariff']);
                   }
                 }, (appError: AppError) => {
                   throw appError;

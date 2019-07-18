@@ -6,6 +6,7 @@ import AppError from '../../errors/app-error';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import Meter from '../../models/Meter';
 import {Subscription} from 'rxjs';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-meter-indicators-info',
@@ -19,7 +20,10 @@ export class MeterIndicatorsInfoComponent implements OnInit, OnDestroy {
 
   meter: Meter = new Meter();
 
-  constructor(private meterService: MeterService, private route: ActivatedRoute, private router: Router) {
+  constructor(private meterService: MeterService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) {
   }
 
   ngOnInit() {
@@ -29,6 +33,7 @@ export class MeterIndicatorsInfoComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.meter  = response.body;
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/meter/[0-9]+/indicator$', 'Лічильник "' + this.meter.name + '"');
           }
         }, (appError: AppError) => {
           throw appError;
@@ -36,12 +41,8 @@ export class MeterIndicatorsInfoComponent implements OnInit, OnDestroy {
     });
   }
 
-  meterInfo(meterId: number) {
-    this.router.navigate(['/meter/' + meterId + '/info']);
-  }
-
-  addIndicator(meterId: number) {
-    this.router.navigate(['indicator/create/meter/' + meterId]);
+  addIndicator() {
+    this.router.navigate([this.router.url + '/create']);
   }
 
   ngOnDestroy(): void {

@@ -11,6 +11,7 @@ import Meter from '../../models/Meter';
 import Tariff from '../../models/Tariff';
 import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-indicator-update',
@@ -36,7 +37,8 @@ export class IndicatorUpdateComponent implements OnInit, OnDestroy {
               private meterService: MeterService,
               private tariffService: TariffService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) {
     this.paramsSubscription = this.route.params.subscribe( params => this.indicatorId = params['id']);
   }
 
@@ -51,6 +53,8 @@ export class IndicatorUpdateComponent implements OnInit, OnDestroy {
               if (meterResp) {
                 tokenSetter(meterResp);
                 this.meter = meterResp.body;
+
+                this.breadcrumbService.addFriendlyNameForRouteRegex('/indicator/[0-9]+/update$', 'Редагувати показник');
 
                 this.getTariffByCategoryIdSubscription = this.tariffService.getTariffByCategoryId(this.meter.categoryId)
                   .subscribe((tariffResp: HttpResponse<any>) => {
@@ -88,7 +92,7 @@ export class IndicatorUpdateComponent implements OnInit, OnDestroy {
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
-          this.router.navigate(['/indicator/' + this.indicatorId + '/info']);
+          this.router.navigate([this.router.url.replace('update', 'info')]);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

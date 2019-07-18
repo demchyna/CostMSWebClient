@@ -35,7 +35,7 @@ export class CategoryTariffsInfoComponent implements OnInit, OnDestroy {
   }
 
   addTariff() {
-    this.router.navigate(['tariff/create/category/' + this.category.id]);
+    this.router.navigate([this.router.url + '/create']);
   }
 
   ngOnDestroy(): void {

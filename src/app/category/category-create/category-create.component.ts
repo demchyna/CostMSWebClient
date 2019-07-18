@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {UserService} from '../../user/user.service';
 import ValidationError from '../../models/ValidationError';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-category-create',
@@ -23,10 +24,13 @@ export class CategoryCreateComponent implements OnInit, OnDestroy {
   constructor(private categoryService: CategoryService,
               private userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) {
 
-  ngOnInit() {
+    this.breadcrumbService.addFriendlyNameForRouteRegex('/user/[0-9]+/category/create$', 'Додати');
   }
+
+  ngOnInit() {  }
 
   createCategory(data: any): void {
 
@@ -41,7 +45,7 @@ export class CategoryCreateComponent implements OnInit, OnDestroy {
       this.createCategorySubscription = this.categoryService.createCategory(category)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
-            this.router.navigate(['/category/user/' + params['id']]);
+            this.router.navigate(['/user/' + params['id'] + '/category']);
           }
         }, (appError: AppError) => {
           if (appError.status === 422) {

@@ -84,19 +84,11 @@ export class FundsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectedRow(fundsId: number) {
-    this.router.navigate(['/funds/' + fundsId + '/info']);
-  }
-
   setOrder(value: string) {
     if (this.order === value) {
       this.reverse = !this.reverse;
     }
     this.order = value;
-  }
-
-  clickEvent($event) {
-    $event.stopPropagation();
   }
 
   filterApply(filterDropdown: NgbDropdown, incomeItem, outlayItem) {
@@ -164,6 +156,10 @@ export class FundsListComponent implements OnInit, OnDestroy {
 
   showFundsStatistic() {
     this.router.navigate(['funds/statistic/user/' + this.userId]);
+  }
+
+  clickEvent($event) {
+    $event.stopPropagation();
   }
 
   ngOnDestroy(): void {

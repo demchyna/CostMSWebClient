@@ -12,6 +12,7 @@ import Meter from '../../models/Meter';
 import {UserService} from '../../user/user.service';
 import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-meter-create',
@@ -34,7 +35,8 @@ export class MeterCreateComponent implements OnInit, OnDestroy {
               private unitService: UnitService,
               private userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
 
@@ -44,6 +46,8 @@ export class MeterCreateComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.category = response.body;
+
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/[0-9]+/meter/create$', 'Додати лічильник');
           }
         }, (appError: AppError) => {
           throw appError;
@@ -77,7 +81,7 @@ export class MeterCreateComponent implements OnInit, OnDestroy {
     this.createMeterSubscription = this.meterService.createMeter(meter)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
-          this.router.navigate(['/category/user/' + this.category.userId]);
+          this.router.navigate(['/user/' + this.category.userId + '/category']);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

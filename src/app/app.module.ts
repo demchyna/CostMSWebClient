@@ -9,7 +9,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { UsersListComponent } from './user/users-list/users-list.component';
 import { UserInfoComponent } from './user/user-info/user-info.component';
 import { UserUpdateComponent } from './user/user-update/user-update.component';
-import { appRouting } from './app.routing';
 import { CommonErrorHandler } from './errors/common-error-handler';
 import { AuthService } from './auth/auth.service';
 import { UserService } from './user/user.service';
@@ -60,20 +59,8 @@ import { FundsUpdateComponent } from './funds/funds-update/funds-update.componen
 import { FundsStatisticComponent } from './funds/funds-statistic/funds-statistic.component';
 
 import { ChartsModule } from 'ng2-charts';
-
-// import { FusionChartsModule } from 'angular-fusioncharts';
-//
-// import * as FusionCharts from 'fusioncharts';
-// import * as Charts from 'fusioncharts/fusioncharts.charts';
-// import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
-// import * as TimeSeries from 'fusioncharts/fusioncharts.timeseries';
-//
-// FusionChartsModule.fcRoot(
-//   FusionCharts,
-//   Charts,
-//   FusionTheme,
-//   TimeSeries
-// );
+import {appRouting} from './app.routing';
+import {BreadcrumbService, Ng5BreadcrumbModule} from 'ng5-breadcrumb';
 
 export function tokenGetter() {
 
@@ -139,7 +126,6 @@ export function tokenGetter() {
       }
     }),
     FormsModule,
-
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -150,13 +136,11 @@ export function tokenGetter() {
     MatDialogModule,
     NgbModule,
     ChartsModule,
-
-    // FusionChartsModule,
-
     appRouting,
     OrderModule,
     NgxPaginationModule,
-    Ng4LoadingSpinnerModule.forRoot()
+    Ng4LoadingSpinnerModule.forRoot(),
+    Ng5BreadcrumbModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: CommonErrorHandler },
@@ -171,7 +155,8 @@ export function tokenGetter() {
     UnitService,
     AuthGuardService,
     AdminGuardService,
-    FundsService
+    FundsService,
+    BreadcrumbService
   ],
   bootstrap: [AppComponent]
 })

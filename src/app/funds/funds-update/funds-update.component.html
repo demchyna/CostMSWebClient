@@ -7,8 +7,8 @@
             <div class="d-none d-md-block col-md-1 col-lg-2 col-xl-3"></div>
             <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
               <h5>Редагування існуючих
-                <span *ngIf="type === fundsType.INCOME">доходів</span>
-                <span *ngIf="type === fundsType.OUTLAY">витрат</span>
+                <span *ngIf="funds.type === fundsType[0]">доходів</span>
+                <span *ngIf="funds.type === fundsType[1]">витрат</span>
               </h5>
               <hr>
               <div>
@@ -54,8 +54,8 @@
                 <label for="source">
                   <span style="color: red; font-weight: bold;">*</span>
                   Джерело
-                  <span *ngIf="type === fundsType.INCOME">доходів</span>
-                  <span *ngIf="type === fundsType.OUTLAY">витрат</span>:
+                  <span *ngIf="funds.type === fundsType[0]">доходів</span>
+                  <span *ngIf="funds.type === fundsType[1]">витрат</span>:
                 </label>
                 <textarea [ngModel]="funds.source" name="source" class="form-control" [ngClass]="{'is-invalid': fundsErrors['name']}" id="source" [placeholder]="(type === fundsType.INCOME)  ? 'Введіть джерело доходів' : 'Введіть джерело витрат'" required></textarea>
                 <div class="invalid-feedback">
