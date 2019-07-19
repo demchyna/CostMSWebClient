@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit {
   title = 'Cost Management System';
 
   navbarOpen = false;
@@ -45,9 +45,5 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
-  }
-
-  ngAfterViewInit() {
-    this.cd.detectChanges();
   }
 }
