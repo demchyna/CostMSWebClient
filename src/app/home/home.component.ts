@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   }
 
   fundsList() {
-    this.router.navigate(['funds/user/' + this.userService.currentUser.id]);
+    this.router.navigate(['/funds/user/' + this.userService.currentUser.id]);
   }
 
   categoriesList() {
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   }
 
   usersList() {
-    this.router.navigate(['user/all']);
+    this.router.navigate(['/users']);
   }
 
 }

@@ -32,6 +32,7 @@ export class AppComponent implements OnInit{
     this.breadcrumbService.hideRouteRegex('/home$');
     this.breadcrumbService.hideRouteRegex('/user$');
     this.breadcrumbService.hideRouteRegex('/user/[0-9]+$');
+    this.breadcrumbService.hideRouteRegex('/users/[0-9]+$');
     this.breadcrumbService.hideRouteRegex('/.*/category/[0-9]+$');
     this.breadcrumbService.hideRouteRegex('/.*/tariff/[0-9]+$');
     this.breadcrumbService.hideRouteRegex('/.*/[0-9]+/meter$');

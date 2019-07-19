@@ -10,6 +10,7 @@ import {Subscription} from 'rxjs';
 import {changeDateFormat, changeTimeFormat} from '../../helpers/date-format-helper';
 import {ConfirmComponent} from '../../confirm/confirm.component';
 import {MatDialog, MatDialogRef} from '@angular/material';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-user-info',
@@ -34,7 +35,8 @@ export class UserInfoComponent implements OnInit, OnDestroy {
               private authService: AuthService,
               private route: ActivatedRoute,
               private router: Router,
-              private dialog: MatDialog) {  }
+              private dialog: MatDialog,
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsUserSubscription = this.route.params.subscribe( params => {
@@ -44,6 +46,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
             tokenSetter(response);
             this.user  = response.body;
             this.user.createDate = (new Date(response.body.createDate)).toLocaleString();
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/users/[0-9]+/info$', this.user.username);
           }
         }, (appError: AppError) => {
           throw appError;
@@ -52,7 +55,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
 
   editUser(userId: number) {
-    this.router.navigate(['/user/' + userId + '/update']);
+    this.router.navigate(['/users/' + userId + '/update']);
   }
 
   deleteUser(userId: number) {

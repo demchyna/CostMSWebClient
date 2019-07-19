@@ -8,6 +8,7 @@ import {UserService} from '../user.service';
 import {AuthService} from '../../auth/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import ValidationError from '../../models/ValidationError';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-user-credential',
@@ -32,7 +33,8 @@ export class UserCredentialComponent implements OnInit, OnDestroy {
 
   constructor(protected userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
     this.paramsUserSubscription = this.route.params.subscribe( params => {
@@ -41,6 +43,7 @@ export class UserCredentialComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.user  = response.body;
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/users/[0-9]+/credential', 'Логін та пароль');
           }
         }, (appError: AppError) => {
           throw appError;
@@ -72,14 +75,11 @@ export class UserCredentialComponent implements OnInit, OnDestroy {
             .subscribe((userResp: HttpResponse<any>) => {
               if (userResp) {
                 tokenSetter(userResp);
-                this.router.navigate(['/user/' + this.user.id + '/info']);
+                this.router.navigate(['/users/' + this.user.id + '/info']);
               }
             }, (appError: AppError) => {
               if (appError.status === 422) {
                 this.userErrors = (<ValidationError>appError.error).validationErrors;
-
-                console.log(this.userErrors);
-
               } else {
                 throw appError;
               }

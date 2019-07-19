@@ -52,36 +52,35 @@ const routes: Routes = [
     path: 'registration',
     component: UserCreateComponent
   },
-
-
-
   {
-    path: 'user/:id/info',
-    component: UserInfoComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'user/:id/credential',
-    component: UserCredentialComponent,
-    canActivate: [AuthGuardService]
-
-  },
-  {
-    path: 'user/:id/update',
-    component: UserUpdateComponent,
-    canActivate: [AuthGuardService]
-  },
-
-
-
-  {
-    path: 'user',
+    path: 'users',
     children: [
       {
-        path: 'all',
+        path: '',
         component: UsersListComponent,
         canActivate: [AuthGuardService, AdminGuardService]
       },
+      {
+        path: ':id/update',
+        component: UserUpdateComponent,
+        canActivate: [AuthGuardService]
+      },
+      {
+        path: ':id/credential',
+        component: UserCredentialComponent,
+        canActivate: [AuthGuardService]
+
+      },
+      {
+        path: ':id/info',
+        component: UserInfoComponent,
+        canActivate: [AuthGuardService]
+      }
+    ]
+  },
+  {
+    path: 'user',
+    children: [
       {
         path: ':id/category',
         children: [

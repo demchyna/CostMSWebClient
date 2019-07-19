@@ -9,6 +9,7 @@ import Role from '../../models/Role';
 import {RoleService} from '../../role/role.service';
 import {Subscription} from 'rxjs';
 import ValidationError from '../../models/ValidationError';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-user-update',
@@ -28,7 +29,12 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
   userErrors: Map<string, string> = new Map<string, string>();
 
 
-  constructor(public userService: UserService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
+  constructor(public userService: UserService,
+              private roleService: RoleService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) {
+
     this.paramsUserSubscription = this.route.params.subscribe( params => this.userId = params['id']);
   }
 
@@ -45,7 +51,7 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
-          this.router.navigate(['/user/' + this.userId + '/info']);
+          this.router.navigate(['/users/' + this.userId + '/info']);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {
@@ -74,6 +80,7 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           this.user  = response.body;
+          this.breadcrumbService.addFriendlyNameForRouteRegex('/users/[0-9]+/update$', 'Редагувати');
         }
       }, (appError: AppError) => {
         throw appError;
@@ -81,7 +88,7 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
   }
 
   changePassword() {
-    this.router.navigate(['/user/' + this.userId + '/credential']);
+    this.router.navigate(['/users/' + this.userId + '/credential']);
   }
 
   ngOnDestroy(): void {

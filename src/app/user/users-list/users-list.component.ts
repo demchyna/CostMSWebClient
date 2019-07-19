@@ -53,7 +53,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           this.users = response.body;
-          this.breadcrumbService.addFriendlyNameForRouteRegex('/user/all', 'Користувачі');
+          this.breadcrumbService.addFriendlyNameForRouteRegex('/users$', 'Користувачі');
         }
       }, (appError: AppError) => {
           throw appError;
@@ -61,7 +61,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   selectedRow(userId: number) {
-    this.router.navigate(['/user/' + userId + '/info']);
+    this.router.navigate(['/users/' + userId + '/info']);
   }
 
   categoriesList(userId: number) {
@@ -69,7 +69,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   editUser(userId: number) {
-    this.router.navigate(['/user/' + userId + '/update']);
+    this.router.navigate(['/users/' + userId + '/update']);
   }
 
   deleteUser(userId: number) {
@@ -94,7 +94,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
                   this.authService.logout();
                   this.router.navigate(['/login']);
                 } else {
-                  this.router.navigate(['/user/all']);
+                  this.router.navigate(['/users']);
                 }
               }
             }, (appError: AppError) => {

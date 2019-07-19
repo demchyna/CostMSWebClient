@@ -28,7 +28,7 @@
         </ul>
         <ul class="navbar-nav mr-1" *ngIf="authService.isLoggedIn() && userService.isAdmin()">
           <li class="nav-item">
-            <a routerLink="/user/all" routerLinkActive="active" class="nav-link px-3">Користувачі</a>
+            <a routerLink="/users" routerLinkActive="active" class="nav-link px-3">Користувачі</a>
           </li>
         </ul>
         <ul class="navbar-nav ml-auto" *ngIf="authService.isLoggedIn()">
