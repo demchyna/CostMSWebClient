@@ -9,6 +9,7 @@ import {Subscription} from 'rxjs';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {BaseChartDirective, Label} from 'ng2-charts';
 import {NgbDateStruct, NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-funds-statistic',
@@ -85,7 +86,8 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
 
   constructor(private fundsService: FundsService,
               public userService: UserService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private breadcrumbService: BreadcrumbService) {
   }
 
   ngOnInit() {
@@ -96,6 +98,8 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
+
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/funds/statistic', 'Статистика');
 
             response.body.forEach((item) => {
 

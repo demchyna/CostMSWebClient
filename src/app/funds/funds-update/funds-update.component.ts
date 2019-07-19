@@ -8,6 +8,7 @@ import AppError from '../../errors/app-error';
 import ValidationError from '../../models/ValidationError';
 import Funds, {FundsType} from '../../models/Funds';
 import {FundsService} from '../funds.service';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-funds-update',
@@ -29,7 +30,8 @@ export class FundsUpdateComponent implements OnInit, OnDestroy {
   constructor(private fundsService: FundsService,
               private userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) {
 
     this.paramsSubscription = this.route.params.subscribe( params => this.fundsId = params['id']);
   }
@@ -40,6 +42,8 @@ export class FundsUpdateComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           this.funds = response.body;
+
+          this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/funds/[0-9]+/update$', 'Редагувати');
         }
       }, (appError: AppError) => {
         throw appError;
@@ -58,7 +62,7 @@ export class FundsUpdateComponent implements OnInit, OnDestroy {
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
-          this.router.navigate(['/funds/user/' + this.funds.userId]);
+          this.router.navigate(['/user/' + this.funds.userId + '/funds']);
         }
       }, (appError: AppError) => {
         if (appError.status === 422) {

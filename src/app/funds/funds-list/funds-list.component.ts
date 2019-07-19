@@ -12,6 +12,7 @@ import User from '../../models/User';
 import {ConfirmComponent} from '../../confirm/confirm.component';
 import {changeDateFormat} from '../../helpers/date-format-helper';
 import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-funds-list',
@@ -50,7 +51,8 @@ export class FundsListComponent implements OnInit, OnDestroy {
               public userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -66,6 +68,8 @@ export class FundsListComponent implements OnInit, OnDestroy {
                 item.id, item.date, item.source, item.value, item.currency, FundsType[<string>item.type], item.description
               ));
             });
+
+            this.breadcrumbService.addFriendlyNameForRouteRegex('/user/[0-9]+/funds$', 'Доходи та витрати');
 
             this.getUserByIdSubscription = this.userService.getUserById(this.userId)
               .subscribe((userResp: HttpResponse<any>) => {
@@ -105,16 +109,16 @@ export class FundsListComponent implements OnInit, OnDestroy {
   }
 
   addIncomeFunds() {
-    this.router.navigate(['funds/create/user/' + this.userId], { queryParams: { type: FundsType[FundsType.INCOME] } });
+    this.router.navigate([this.router.url + '/create'], { queryParams: { type: FundsType[FundsType.INCOME] } });
   }
 
   addOutlayFunds() {
-    this.router.navigate(['funds/create/user/' + this.userId], { queryParams: { type: FundsType[FundsType.OUTLAY] } });
+    this.router.navigate([this.router.url + '/create'], { queryParams: { type: FundsType[FundsType.OUTLAY] } });
   }
 
   editFunds(fundsId: number, $event) {
     $event.stopPropagation();
-    this.router.navigate(['/funds/' + fundsId + '/update']);
+    this.router.navigate([this.router.url + '/' + fundsId + '/update']);
   }
 
   deleteFunds(fundsId: number, $event) {
@@ -138,7 +142,7 @@ export class FundsListComponent implements OnInit, OnDestroy {
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
                     this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-                      this.router.navigate(['funds/user/' + this.userId]));
+                      this.router.navigate(['/user/' + this.userId + '/funds']));
                   }
                 }, (appError: AppError) => {
                   throw appError;
@@ -155,7 +159,7 @@ export class FundsListComponent implements OnInit, OnDestroy {
   }
 
   showFundsStatistic() {
-    this.router.navigate(['funds/statistic/user/' + this.userId]);
+    this.router.navigate(['/user/' + this.userId + '/funds/statistic']);
   }
 
   clickEvent($event) {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AuthService} from './auth/auth.service';
 import {UserService} from './user/user.service';
 import {BreadcrumbService} from 'ng5-breadcrumb';
@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'Cost Management System';
 
   navbarOpen = false;
@@ -25,6 +25,7 @@ export class AppComponent implements OnInit{
               public authService: AuthService,
               public userService: UserService,
               private meterService: MeterService,
+              private cd: ChangeDetectorRef,
               private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit(): void {
@@ -39,9 +40,14 @@ export class AppComponent implements OnInit{
     this.breadcrumbService.hideRouteRegex('/.*/meter$');
     this.breadcrumbService.hideRouteRegex('/.*/meter/[0-9]+$');
     this.breadcrumbService.hideRouteRegex('/.*/indicator/[0-9]+$');
+    this.breadcrumbService.hideRouteRegex('/.*/funds/[0-9]+$');
   }
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 }

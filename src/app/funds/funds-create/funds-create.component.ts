@@ -7,6 +7,7 @@ import AppError from '../../errors/app-error';
 import ValidationError from '../../models/ValidationError';
 import {Subscription} from 'rxjs';
 import Funds, {FundsType} from '../../models/Funds';
+import {BreadcrumbService} from 'ng5-breadcrumb';
 
 @Component({
   selector: 'app-funds-create',
@@ -27,13 +28,22 @@ export class FundsCreateComponent implements OnInit, OnDestroy {
   constructor(private fundsService: FundsService,
               public userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private breadcrumbService: BreadcrumbService) { }
 
   ngOnInit() {
     this.queryParamsSubscription = this.route.queryParams
       .subscribe(queryParams => {
         this.type = FundsType[<string>queryParams['type']];
       });
+    switch (this.type) {
+      case FundsType.INCOME:
+        this.breadcrumbService.addFriendlyNameForRouteRegex('/user/[0-9]+/funds/create\\?type=INCOME', 'Внести доходи');
+        break;
+      case FundsType.OUTLAY:
+        this.breadcrumbService.addFriendlyNameForRouteRegex('/user/[0-9]+/funds/create\\?type=OUTLAY', 'Внести витрати');
+        break;
+    }
   }
 
   createFunds(data: any): void {

@@ -81,6 +81,35 @@ const routes: Routes = [
   {
     path: 'user',
     children: [
+
+
+      {
+        path: ':id/funds',
+        children: [
+          {
+            path: '',
+            component: FundsListComponent,
+            canActivate: [AuthGuardService]
+          },
+          {
+            path: 'create',
+            component: FundsCreateComponent,
+            canActivate: [AuthGuardService]
+          },
+          {
+            path: ':id/update',
+            component: FundsUpdateComponent,
+            canActivate: [AuthGuardService]
+          },
+          {
+            path: 'statistic',
+            component: FundsStatisticComponent,
+            canActivate: [AuthGuardService]
+          }
+        ]
+      },
+
+
       {
         path: ':id/category',
         children: [
@@ -181,26 +210,26 @@ const routes: Routes = [
 
 
 
-  {
-    path: 'funds/user/:id',
-    component: FundsListComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'funds/create/user/:id',
-    component: FundsCreateComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'funds/:id/update',
-    component: FundsUpdateComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'funds/statistic/user/:id',
-    component: FundsStatisticComponent,
-    canActivate: [AuthGuardService]
-  }
+  // {
+  //   path: 'funds/user/:id',
+  //   component: FundsListComponent,
+  //   canActivate: [AuthGuardService]
+  // },
+  // {
+  //   path: 'funds/create/user/:id',
+  //   component: FundsCreateComponent,
+  //   canActivate: [AuthGuardService]
+  // },
+  // {
+  //   path: 'funds/:id/update',
+  //   component: FundsUpdateComponent,
+  //   canActivate: [AuthGuardService]
+  // },
+  // {
+  //   path: 'funds/statistic/user/:id',
+  //   component: FundsStatisticComponent,
+  //   canActivate: [AuthGuardService]
+  // }
 ];
 
 export const appRouting: ModuleWithProviders = RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' });

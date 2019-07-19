@@ -18,7 +18,7 @@
         </ul>
         <ul class="navbar-nav mr-0" *ngIf="authService.isLoggedIn()">
           <li class="nav-item">
-            <a routerLink="/funds/user/{{userService.currentUser.id}}" routerLinkActive="active" class="nav-link px-3">Доходи / Витрати</a>
+            <a routerLink="/user/{{userService.currentUser.id}}/funds" routerLinkActive="active" class="nav-link px-3">Доходи / Витрати</a>
           </li>
         </ul>
         <ul class="navbar-nav mr-0" *ngIf="authService.isLoggedIn()">

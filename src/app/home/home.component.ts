@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   }
 
   fundsList() {
-    this.router.navigate(['/funds/user/' + this.userService.currentUser.id]);
+    this.router.navigate(['/user/' + this.userService.currentUser.id + '/funds']);
   }
 
   categoriesList() {
