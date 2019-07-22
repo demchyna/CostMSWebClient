@@ -1,11 +1,8 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AuthService} from './auth/auth.service';
 import {UserService} from './user/user.service';
 import {BreadcrumbService} from 'ng5-breadcrumb';
 import {MeterService} from './meter/meter.service';
-import {HttpResponse} from '@angular/common/http';
-import {tokenSetter} from './helpers/http-request-helper';
-import AppError from './errors/app-error';
 import Meter from './models/Meter';
 import {Router} from '@angular/router';
 

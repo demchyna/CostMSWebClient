@@ -16,6 +16,17 @@ mat-card {
 
 }
 
+mat-card > mat-card-content {
+  padding-left: 18px;
+}
+
+mat-card > mat-card-content > .fa {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  color: #6C757D;
+}
+
 breadcrumb /deep/ ul.breadcrumb {
   background-color: inherit;
 }

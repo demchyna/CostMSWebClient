@@ -58,16 +58,14 @@
   <div class="row no-gutters">
     <div class="d-none d-lg-block col-lg-1"></div>
     <div class="col-md-12 col-lg-10">
-
-
-          <div *ngIf="authService.isLoggedIn()">
-            <mat-card>
-              <mat-card-content>
-                <breadcrumb prefix="Домашня"></breadcrumb>
-              </mat-card-content>
-            </mat-card>
-          </div>
-
+      <div *ngIf="authService.isLoggedIn()">
+        <mat-card>
+          <mat-card-content>
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <breadcrumb prefix="Домашня"></breadcrumb>
+          </mat-card-content>
+        </mat-card>
+      </div>
       <router-outlet></router-outlet>
       <ng4-loading-spinner></ng4-loading-spinner>
     </div>

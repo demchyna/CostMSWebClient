@@ -62,7 +62,7 @@ export class FundsCreateComponent implements OnInit, OnDestroy {
       this.createFundsSubscription = this.fundsService.createFunds(funds)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
-            this.router.navigate(['/funds/user/' + params['id']]);
+            this.router.navigate(['user/' + params['id'] + '/funds/']);
           }
         }, (appError: AppError) => {
           if (appError.status === 422) {

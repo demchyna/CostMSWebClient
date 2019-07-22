@@ -6,8 +6,6 @@ import AppError from '../../errors/app-error';
 import User from '../../models/User';
 import {tokenSetter} from '../../helpers/http-request-helper';
 import {Subscription} from 'rxjs';
-import {MatIconRegistry} from '@angular/material';
-import {DomSanitizer} from '@angular/platform-browser';
 import ValidationError from '../../models/ValidationError';
 
 @Component({
@@ -23,14 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginSubscription: Subscription;
 
-  constructor(private authService: AuthService, private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
-    // iconRegistry.addSvgIcon(
-    //   'visibility',
-    //   sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons/visibility-24px.svg'));
-    // iconRegistry.addSvgIcon(
-    //   'visibility_off',
-    //   sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons/visibility_off-24px.svg'));
-  }
+  constructor(private authService: AuthService, private router: Router) {  }
 
   signIn(data: any): void {
     const user = new User;

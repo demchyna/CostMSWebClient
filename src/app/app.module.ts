@@ -117,9 +117,9 @@ export function tokenGetter() {
       config: {
         tokenGetter: tokenGetter,
 
-        whitelistedDomains: ['localhost:8080'],
+        // whitelistedDomains: ['localhost:8080'],
 
-        // whitelistedDomains: ['thawing-escarpment-35369.herokuapp.com'],
+        whitelistedDomains: ['costms.herokuapp.com'],
 
         blacklistedRoutes: [''],
         skipWhenExpired: true
