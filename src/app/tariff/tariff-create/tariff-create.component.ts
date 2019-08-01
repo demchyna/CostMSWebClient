@@ -36,7 +36,7 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
-              private breadcrumbService: BreadcrumbService) { }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -45,15 +45,12 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.category = response.body;
-
             this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/[0-9]+/tariff/create$', 'Додати');
-
           }
         }, (appError: AppError) => {
           throw appError;
         });
     });
-
     this.getAllUnitsSubscription = this.unitService.getAllUnits()
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
@@ -67,7 +64,6 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
 
   createTariff(data: any): void {
     const tariff = new Tariff();
-
     tariff.name = data.name;
     tariff.rate = data.rate;
     tariff.currency = data.currency;
@@ -81,9 +77,7 @@ export class TariffCreateComponent implements OnInit, OnDestroy {
     if (data.unit) {
       tariff.unitId = data.unit.id;
     }
-
     tariff.userId = this.category.userId;
-
     this.createTariffSubscription = this.tariffService.createTariff(tariff)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

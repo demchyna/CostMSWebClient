@@ -44,7 +44,6 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private breadcrumbService: BreadcrumbService) {
-
     this.paramsSubscription = this.route.params.subscribe( params => this.meterId = params['id']);
   }
 
@@ -54,15 +53,12 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           this.meter = response.body;
-
           this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/meter/[0-9]+/update$', 'Редагувати лічильник');
-
           this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.meter.categoryId)
             .subscribe((categoryResp: HttpResponse<any>) => {
               if (categoryResp) {
                 tokenSetter(categoryResp);
                 this.category = categoryResp.body;
-
                 this.getCategoryByUserIdSubscription = this.categoryService.getCategoryByUserId(this.category.userId)
                   .subscribe((categoriesResp: HttpResponse<any>) => {
                     if (categoriesResp) {
@@ -80,7 +76,6 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
             }, (appError: AppError) => {
               throw appError;
             });
-
           this.getAllUnitsSubscription = this.unitService.getAllUnits()
             .subscribe((unitResp: HttpResponse<any>) => {
               if (unitResp) {
@@ -101,18 +96,14 @@ export class MeterUpdateComponent implements OnInit, OnDestroy {
   }
 
   updateMeter(data: any): void {
-
     this.meter.name = data.name;
     this.meter.description = data.description;
-
     if (data.category) {
       this.meter.categoryId = data.category.id;
     }
-
     if (data.unit) {
       this.meter.unitId = data.unit.id;
     }
-
     this.updateMeterSubscription = this.meterService.updateMeter(this.meter)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

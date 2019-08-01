@@ -63,7 +63,6 @@ import {appRouting} from './app.routing';
 import {BreadcrumbService, Ng5BreadcrumbModule} from 'ng5-breadcrumb';
 
 export function tokenGetter() {
-
   let jwtToken = '';
   if (sessionStorage.getItem('jwt-token')) {
     jwtToken = sessionStorage.getItem('jwt-token').substr(7);
@@ -118,7 +117,6 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
 
         // whitelistedDomains: ['localhost:8080'],
-
         whitelistedDomains: ['costms.herokuapp.com'],
 
         blacklistedRoutes: [''],
@@ -160,4 +158,4 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {  }

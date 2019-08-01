@@ -34,7 +34,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
   itemsNumber = 10;
   maxIntegerValue = Number.MAX_SAFE_INTEGER;
   sortedUsers: User[] = [];
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
    constructor(private userService: UserService,
@@ -43,7 +42,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
                private orderPipe: OrderPipe,
                private dialog: MatDialog,
                private breadcrumbService: BreadcrumbService) {
-
      this.sortedUsers = this.orderPipe.transform(this.users, 'id');
   }
 
@@ -82,7 +80,6 @@ export class UsersListComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           const user = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -90,25 +87,22 @@ export class UsersListComponent implements OnInit, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити користувача "${user.username}"?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
-          this.deleteUserUserSubscription = this.userService.deleteUser(user)
-            .subscribe((deleteResp: HttpResponse<any>) => {
-              if (deleteResp) {
-                if (this.userService.currentUser.id === userId) {
-                  this.authService.logout();
-                  this.router.navigate(['/login']);
-                } else {
-                  this.router.navigate(['/users']);
-                }
-              }
-            }, (appError: AppError) => {
-              throw appError;
-            });
-
+              this.deleteUserUserSubscription = this.userService.deleteUser(user)
+                .subscribe((deleteResp: HttpResponse<any>) => {
+                  if (deleteResp) {
+                    if (this.userService.currentUser.id === userId) {
+                      this.authService.logout();
+                      this.router.navigate(['/login']);
+                    } else {
+                      this.router.navigate(['/users']);
+                    }
+                  }
+                }, (appError: AppError) => {
+                  throw appError;
+                });
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

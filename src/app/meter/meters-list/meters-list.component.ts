@@ -22,11 +22,11 @@ export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
   deleteMeterSubscription: Subscription;
 
   @Input() private categoryId: number;
-  meters: Meter[];
 
+  meters: Meter[];
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
-  constructor(private meterService: MeterService, private userService: UserService, private router: Router, private dialog: MatDialog) { }
+  constructor(private meterService: MeterService, private userService: UserService, private router: Router, private dialog: MatDialog) {  }
 
   ngOnInit() {
     this.meters = [];
@@ -62,13 +62,11 @@ export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
 
   deleteMeter(meterId: number, event) {
     event.stopPropagation();
-
     this.getMeterByIdSubscription = this.meterService.getMeterById(meterId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
           const meter = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -76,7 +74,6 @@ export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити лічильник з назвою "${meter.name}"?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteMeterSubscription = this.meterService.deleteMeter(meter)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -87,11 +84,9 @@ export class MetersListComponent implements OnInit, OnChanges, OnDestroy {
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

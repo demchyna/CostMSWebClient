@@ -10,7 +10,7 @@ import {throwError} from 'rxjs/internal/observable/throwError';
 @Injectable()
 export class MeterService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {  }
 
   getMeterByCategoryId(categoryId: number): Observable<any> {
     return this.httpClient.get<any>(

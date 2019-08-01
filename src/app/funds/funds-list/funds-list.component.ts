@@ -30,21 +30,17 @@ export class FundsListComponent implements OnInit, OnDestroy {
   user: User = new User();
   userId: number;
   funds: Funds[] = [];
-
   fundsDateValue = '';
   fundsCostValue = '';
   fundsSourceValue = '';
   fundsTypeValues = [FundsType.INCOME, FundsType.OUTLAY];
   fundsType = FundsType;
-
   order = 'date';
   reverse = true;
   currentPage = 1;
   itemsNumber = 10;
   maxIntegerValue = Number.MAX_SAFE_INTEGER;
-
   dateFormatter = changeDateFormat;
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private fundsService: FundsService,
@@ -52,25 +48,21 @@ export class FundsListComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
-              private breadcrumbService: BreadcrumbService) { }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
       this.userId = params['id'];
-
       this.getFundsByUserIdSubscription = this.fundsService.getFundsByUserId(this.userId)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
-
             response.body.forEach((item) => {
               this.funds.push(new Funds(
                 item.id, item.date, item.source, item.value, item.currency, FundsType[<string>item.type], item.description
               ));
             });
-
             this.breadcrumbService.addFriendlyNameForRouteRegex('/user/[0-9]+/funds$', 'Доходи та витрати');
-
             this.getUserByIdSubscription = this.userService.getUserById(this.userId)
               .subscribe((userResp: HttpResponse<any>) => {
                 if (userResp) {
@@ -80,7 +72,6 @@ export class FundsListComponent implements OnInit, OnDestroy {
               }, (appError: AppError) => {
                 throw appError;
               });
-
           }
         }, (appError: AppError) => {
           throw appError;
@@ -97,9 +88,7 @@ export class FundsListComponent implements OnInit, OnDestroy {
 
   filterApply(filterDropdown: NgbDropdown, incomeItem, outlayItem) {
     filterDropdown.close();
-
     this.fundsTypeValues = [];
-
     if (incomeItem.checked) {
       this.fundsTypeValues.push(FundsType.INCOME);
     }
@@ -123,13 +112,11 @@ export class FundsListComponent implements OnInit, OnDestroy {
 
   deleteFunds(fundsId: number, $event) {
     $event.stopPropagation();
-
     this.getFundsByIdSubscription = this.fundsService.getFundsById(fundsId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
           const funds = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -137,7 +124,6 @@ export class FundsListComponent implements OnInit, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити даний запис"?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteFundsSubscription = this.fundsService.deleteFunds(funds)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -147,11 +133,9 @@ export class FundsListComponent implements OnInit, OnDestroy {
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

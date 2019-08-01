@@ -53,14 +53,11 @@ export class IndicatorUpdateComponent implements OnInit, OnDestroy {
               if (meterResp) {
                 tokenSetter(meterResp);
                 this.meter = meterResp.body;
-
                 this.breadcrumbService.addFriendlyNameForRouteRegex('/indicator/[0-9]+/update$', 'Редагувати показник');
-
                 this.getTariffByCategoryIdSubscription = this.tariffService.getTariffByCategoryId(this.meter.categoryId)
                   .subscribe((tariffResp: HttpResponse<any>) => {
                     if (tariffResp) {
                       this.tariffs = tariffResp.body;
-
                       this.tariffs.map((tariff, index) => {
                         if (tariff.id === this.indicator.tariffId) {
                           this.currentTariffId = index;
@@ -81,13 +78,11 @@ export class IndicatorUpdateComponent implements OnInit, OnDestroy {
   }
 
   updateIndicator(data: any): void {
-
     this.indicator.current = data.current;
     this.indicator.date = data.date;
     this.indicator.payment = data.payment;
     this.indicator.tariffId = data.tariff.id;
     this.indicator.description = data.description;
-
     this.updateIndicatorSubscription = this.indicatorService.updateIndicator(this.indicator)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

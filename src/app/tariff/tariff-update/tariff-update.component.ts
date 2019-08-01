@@ -48,9 +48,7 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           this.tariff = response.body;
-
           this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/tariff/[0-9]+/update', 'Редагувати');
-
           this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.tariff.categoryId)
             .subscribe((tariffResp: HttpResponse<any>) => {
               if (tariffResp) {
@@ -60,12 +58,10 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
             }, (appError: AppError) => {
               throw appError;
             });
-
           this.getAllUnitsSubscription = this.unitService.getAllUnits()
             .subscribe((unitResp: HttpResponse<any>) => {
               if (unitResp) {
                 this.units = unitResp.body;
-
                 this.units.map((unit, index) => {
                   if (unit.id === this.tariff.unitId) {
                     this.currentUnitId = index;
@@ -82,7 +78,6 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
   }
 
   updateTariff(data: any): void {
-
     this.tariff.name = data.name;
     this.tariff.rate = data.rate;
     this.tariff.currency = data.currency;
@@ -91,11 +86,9 @@ export class TariffUpdateComponent implements OnInit, OnDestroy {
       this.tariff.endDate = data.endDate;
     }
     this.tariff.description = data.description;
-
     if (data.unit) {
       this.tariff.unitId = data.unit.id;
     }
-
     this.updateTariffSubscription = this.tariffService.updateTariff(this.tariff)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

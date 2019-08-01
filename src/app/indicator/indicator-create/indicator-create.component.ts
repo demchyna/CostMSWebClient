@@ -39,7 +39,7 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private breadcrumbService: BreadcrumbService) { }
+    private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -48,9 +48,7 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.meter = response.body;
-
             this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/meter/[0-9]+/indicator/create$', 'Додати показник');
-
             this.getTariffByCategoryIdSubscription = this.tariffService.getTariffByCategoryId(this.meter.categoryId)
               .subscribe((resp: HttpResponse<any>) => {
                 if (resp) {
@@ -59,12 +57,10 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
               }, (appError: AppError) => {
                 throw appError;
               });
-
           }
         }, (appError: AppError) => {
           throw appError;
         });
-
       this.getLastAddedIndicatorByMeterIdSubscription = this.indicatorService.getLastAddedIndicatorByMeterId(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
@@ -74,13 +70,11 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
         }, (appError: AppError) => {
           throw appError;
         });
-
     });
   }
 
   createIndicator(data: any): void {
     const indicator = new Indicator();
-
     indicator.current = data.current;
     indicator.date = data.date;
     indicator.payment = data.payment;
@@ -93,7 +87,6 @@ export class IndicatorCreateComponent implements OnInit, OnDestroy {
     }
     indicator.description = data.description;
     indicator.userId = this.meter.userId;
-
     this.createIndicatorSubscription = this.indicatorService.createIndicator(indicator)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

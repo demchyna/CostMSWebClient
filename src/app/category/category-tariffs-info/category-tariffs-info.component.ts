@@ -18,7 +18,7 @@ export class CategoryTariffsInfoComponent implements OnInit, OnDestroy {
 
   category: Category = new Category();
 
-  constructor(private categoryService: CategoryService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private categoryService: CategoryService, private route: ActivatedRoute, private router: Router) {  }
 
   ngOnInit() {
     this.route.params.subscribe( params => {

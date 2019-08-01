@@ -8,12 +8,9 @@ import {AuthService} from '../auth/auth.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
-  constructor(public authService: AuthService, public userService: UserService, private router: Router) { }
-
-  ngOnInit() {
-  }
+  constructor(public authService: AuthService, public userService: UserService, private router: Router) {  }
 
   fundsList() {
     this.router.navigate(['/user/' + this.userService.currentUser.id + '/funds']);
@@ -26,5 +23,4 @@ export class HomeComponent implements OnInit {
   usersList() {
     this.router.navigate(['/users']);
   }
-
 }

@@ -13,20 +13,18 @@ import ValidationError from '../../models/ValidationError';
   templateUrl: './user-create.component.html',
   styleUrls: ['./user-create.component.css']
 })
-export class UserCreateComponent implements OnInit, OnDestroy {
-
-  hidePassword = true;
-  hideConfirmPassword = true;
+export class UserCreateComponent implements OnDestroy {
 
   createUserSubscription: Subscription;
 
+  hidePassword = true;
+  hideConfirmPassword = true;
   userErrors: Map<string, string> = new Map<string, string>();
 
   constructor(private userService: UserService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) { }
 
   registerUser(data: any): void {
     const user = new User;
-
     if (data.password === data.confirm) {
       user.password = data.password;
     } else {
@@ -34,13 +32,11 @@ export class UserCreateComponent implements OnInit, OnDestroy {
       this.userErrors['confirm'] = 'Повинен співпадати з паролем вказаним у полі \'Пароль\'.';
       return;
     }
-
     user.username = data.username;
     user.firstName = data.firstName;
     user.lastName = data.lastName;
     user.email = data.email;
     user.authorities = [];
-
     this.createUserSubscription = this.userService.createUser(user)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
@@ -53,9 +49,6 @@ export class UserCreateComponent implements OnInit, OnDestroy {
           throw appError;
         }
       });
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy(): void {

@@ -26,10 +26,8 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
   deleteTariffSubscription: Subscription;
 
   dateFormatter = changeDateFormat;
-
   tariff: Tariff = new Tariff();
   category: Category = new Category();
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private tariffService: TariffService,
@@ -37,7 +35,7 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
-              private breadcrumbService: BreadcrumbService) { }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -46,9 +44,7 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.tariff = response.body;
-
             this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/tariff/[0-9]+/info', this.tariff.name);
-
             this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.tariff.categoryId)
               .subscribe((categoryResp: HttpResponse<any>) => {
                 if (categoryResp) {
@@ -75,7 +71,6 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           const tariff = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -83,7 +78,6 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити тариф з назвою "${tariff.name}"?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -93,11 +87,9 @@ export class TariffInfoComponent implements OnInit, OnDestroy {
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

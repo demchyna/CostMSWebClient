@@ -9,7 +9,7 @@ import {throwError} from 'rxjs/internal/observable/throwError';
 @Injectable()
 export class RoleService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {  }
 
   getAllRoles(): Observable<any> {
     return this.httpClient.get<any>(
@@ -32,5 +32,4 @@ export class RoleService {
       })
     );
   }
-
 }

@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
   title = 'Cost Management System';
 
   navbarOpen = false;
-
   meter: Meter;
 
   constructor(private router: Router,

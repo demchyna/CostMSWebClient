@@ -31,7 +31,6 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
   meter: Meter = new Meter();
   category: Category = new Category();
   unit: Unit = new Unit();
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private meterService: MeterService,
@@ -41,7 +40,7 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
-              private breadcrumbService: BreadcrumbService) { }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -50,9 +49,7 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
           if (response) {
             tokenSetter(response);
             this.meter = response.body;
-
             this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/meter/[0-9]+/info$', 'Лічильник "' + this.meter.name + '"');
-
             this.getCategoryByIdSubscription = this.categoryService.getCategoryById(this.meter.categoryId)
               .subscribe((categoryResp: HttpResponse<any>) => {
                 if (categoryResp) {
@@ -62,7 +59,6 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
               }, (appError: AppError) => {
                 throw appError;
               });
-
             this.getUnitByIdSubscription = this.unitService.getUnitById(this.meter.unitId)
               .subscribe((unitResp: HttpResponse<any>) => {
                 if (unitResp) {
@@ -72,7 +68,6 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
               }, (appError: AppError) => {
                 throw appError;
               });
-
           }
         }, (appError: AppError) => {
           throw appError;
@@ -90,7 +85,6 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           const meter = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -98,7 +92,6 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити лічильник з назвою "${meter.name}"?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteMeterSubscription = this.meterService.deleteMeter(meter)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -107,11 +100,9 @@ export class MeterInfoComponent implements OnInit, OnDestroy {
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

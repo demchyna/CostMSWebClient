@@ -17,24 +17,22 @@ import {BreadcrumbService} from 'ng5-breadcrumb';
 })
 export class UserCredentialComponent implements OnInit, OnDestroy {
 
-  hideOldPassword = true;
-  hideNewPassword = true;
-  hideConfirmPassword = true;
-
   paramsUserSubscription: Subscription;
   checkPasswordByLoginUserSubscription: Subscription;
   updateUserUserSubscription: Subscription;
   getUserByIdUserSubscription: Subscription;
 
+  hideOldPassword = true;
+  hideNewPassword = true;
+  hideConfirmPassword = true;
   userCredential: User = new User();
   user: User = new User();
-
   userErrors: Map<string, string> = new Map<string, string>();
 
   constructor(protected userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
-              private breadcrumbService: BreadcrumbService) { }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsUserSubscription = this.route.params.subscribe( params => {
@@ -52,25 +50,19 @@ export class UserCredentialComponent implements OnInit, OnDestroy {
   }
 
   updateUser(data: any): void {
-
     this.userErrors = new Map<string, string>();
-
     this.userCredential.id = this.user.id;
     this.userCredential.password = data.oldPassword;
-
     this.checkPasswordByLoginUserSubscription = this.userService.checkPasswordByUserId(this.userCredential)
       .subscribe((credentialResp: HttpResponse<any>) => {
         if (credentialResp) {
-
           this.user.username = data.username;
-
           if (data.newPassword === data.confirm) {
             this.user.password = data.newPassword;
           } else {
             this.userErrors['confirm'] = 'Повинен співпадати з паролем вказаним у полі \'Новий пароль\'.';
             return;
           }
-
           this.updateUserUserSubscription = this.userService.updateUser(this.user)
             .subscribe((userResp: HttpResponse<any>) => {
               if (userResp) {
@@ -84,7 +76,6 @@ export class UserCredentialComponent implements OnInit, OnDestroy {
                 throw appError;
               }
             });
-
         }
       }, (appError: AppError) => {
         if (appError.status === 400) {
@@ -93,7 +84,6 @@ export class UserCredentialComponent implements OnInit, OnDestroy {
           throw appError;
         }
       });
-
   }
 
   ngOnDestroy(): void {
@@ -110,5 +100,4 @@ export class UserCredentialComponent implements OnInit, OnDestroy {
       this.getUserByIdUserSubscription.unsubscribe();
     }
   }
-
 }

@@ -22,14 +22,13 @@ export class FundsCreateComponent implements OnInit, OnDestroy {
 
   fundsType = FundsType;
   type: FundsType;
-
   fundsErrors: Map<string, string> = new Map<string, string>();
 
   constructor(private fundsService: FundsService,
               public userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
-              private breadcrumbService: BreadcrumbService) { }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.queryParamsSubscription = this.route.queryParams
@@ -48,9 +47,7 @@ export class FundsCreateComponent implements OnInit, OnDestroy {
 
   createFunds(data: any): void {
     this.paramsSubscription = this.route.params.subscribe( params => {
-
       const funds = new Funds();
-
       funds.date = data.date;
       funds.source = data.source;
       funds.value = data.value;
@@ -58,7 +55,6 @@ export class FundsCreateComponent implements OnInit, OnDestroy {
       funds.description = data.description;
       funds.userId = params['id'];
       funds.type = this.type;
-
       this.createFundsSubscription = this.fundsService.createFunds(funds)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
@@ -85,5 +81,4 @@ export class FundsCreateComponent implements OnInit, OnDestroy {
       this.createFundsSubscription.unsubscribe();
     }
   }
-
 }

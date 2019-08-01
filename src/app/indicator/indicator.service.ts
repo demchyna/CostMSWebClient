@@ -10,7 +10,7 @@ import {throwError} from 'rxjs/internal/observable/throwError';
 @Injectable()
 export class IndicatorService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {  }
 
   getIndicatorById(id: number): Observable<any> {
     return this.httpClient.get<any>(

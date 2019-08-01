@@ -22,7 +22,6 @@ export class FundsUpdateComponent implements OnInit, OnDestroy {
   updateFundsSubscription: Subscription;
 
   fundsType = FundsType;
-
   funds: Funds = new Funds();
   private fundsId: number;
   fundsErrors: Map<string, string> = new Map<string, string>();
@@ -32,7 +31,6 @@ export class FundsUpdateComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private breadcrumbService: BreadcrumbService) {
-
     this.paramsSubscription = this.route.params.subscribe( params => this.fundsId = params['id']);
   }
 
@@ -42,7 +40,6 @@ export class FundsUpdateComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           this.funds = response.body;
-
           this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/funds/[0-9]+/update$', 'Редагувати');
         }
       }, (appError: AppError) => {
@@ -51,13 +48,11 @@ export class FundsUpdateComponent implements OnInit, OnDestroy {
   }
 
   updateFunds(data: any): void {
-
     this.funds.date = data.date;
     this.funds.source = data.source;
     this.funds.value = data.value;
     this.funds.currency = data.currency;
     this.funds.description = data.description;
-
     this.updateFundsSubscription = this.fundsService.updateFunds(this.funds)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
@@ -84,5 +79,4 @@ export class FundsUpdateComponent implements OnInit, OnDestroy {
       this.updateFundsSubscription.unsubscribe();
     }
   }
-
 }

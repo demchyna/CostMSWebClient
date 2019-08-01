@@ -14,7 +14,7 @@ import {BreadcrumbService} from 'ng5-breadcrumb';
   templateUrl: './category-create.component.html',
   styleUrls: ['./category-create.component.css']
 })
-export class CategoryCreateComponent implements OnInit, OnDestroy {
+export class CategoryCreateComponent implements OnDestroy {
 
   paramsSubscription: Subscription;
   createCategorySubscription: Subscription;
@@ -26,22 +26,15 @@ export class CategoryCreateComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private breadcrumbService: BreadcrumbService) {
-
     this.breadcrumbService.addFriendlyNameForRouteRegex('/user/[0-9]+/category/create$', 'Додати');
   }
 
-  ngOnInit() {  }
-
   createCategory(data: any): void {
-
     this.paramsSubscription = this.route.params.subscribe( params => {
-
       const category = new Category();
-
       category.name = data.name;
       category.description = data.description;
       category.userId = params['id'];
-
       this.createCategorySubscription = this.categoryService.createCategory(category)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {

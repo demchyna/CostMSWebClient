@@ -26,7 +26,6 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
 
   user: User = new User();
   category: Category = new Category();
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private categoryService: CategoryService,
@@ -34,19 +33,16 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
-              private breadcrumbService: BreadcrumbService) { }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe(params => {
-
       this.getCategoryByIdSubscription = this.categoryService.getCategoryById(params['id'])
         .subscribe((categoryResp: HttpResponse<any>) => {
           if (categoryResp) {
             tokenSetter(categoryResp);
             this.category = categoryResp.body;
-
             this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/category/[0-9]+/info$', this.category.name);
-
             this.getUserByIdSubscription = this.userService.getUserById(this.category.userId)
               .subscribe((userResp: HttpResponse<any>) => {
                 if (userResp) {
@@ -56,7 +52,6 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
               }, (appError: AppError) => {
                 throw appError;
               });
-
           }
         }, (appError: AppError) => {
           throw appError;
@@ -74,7 +69,6 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           const category = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -82,7 +76,6 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити категорію з назвою "${category.name}"?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteCategorySubscription = this.categoryService.deleteCategory(category)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -91,11 +84,9 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

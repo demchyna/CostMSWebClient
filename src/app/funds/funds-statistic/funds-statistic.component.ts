@@ -87,22 +87,17 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
   constructor(private fundsService: FundsService,
               public userService: UserService,
               private route: ActivatedRoute,
-              private breadcrumbService: BreadcrumbService) {
-  }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
       const userId = params['id'];
-
       this.getFundsByUserIdSubscription = this.fundsService.getFundsByUserId(userId)
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
-
             this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/funds/statistic', 'Статистика');
-
             response.body.forEach((item) => {
-
               switch (item.type) {
                 case 'INCOME':
                   this.incomeData.push([item.date, item.value]);
@@ -114,7 +109,6 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
                   alert('Error!');
               }
             });
-
             if (typeof this.incomeData !== 'undefined' && this.incomeData.length > 0) {
               this.incomeData.forEach((item, index) => {
                 for (let i = index + 1; i < this.incomeData.length; i++) {
@@ -124,7 +118,6 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
                   }
                 }
               });
-
               this.outlayData.forEach((item, index) => {
                 for (let i = index + 1; i < this.outlayData.length; i++) {
                   if (item[0] === this.outlayData[i][0]) {
@@ -133,7 +126,6 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
                   }
                 }
               });
-
               this.incomeData.forEach((incomeItem) => {
                 let equals = false;
                 this.outlayData.forEach((outlayItem) => {
@@ -145,7 +137,6 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
                   this.outlayData.push([incomeItem[0], null]);
                 }
               });
-
               this.outlayData.forEach((outlayItem) => {
                 let equals = false;
                 this.incomeData.forEach((incomeItem) => {
@@ -157,24 +148,19 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
                   this.incomeData.push([outlayItem[0], null]);
                 }
               });
-
               this.incomeData.sort((a, b) => {
                 return a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0;
               });
-
               this.outlayData.sort((a, b) => {
                 return a[0] > b[0] ? 1 : a[0] < b[0] ? -1 : 0;
               });
-
               this.incomeData.forEach((item) => {
                 this.barChartLabels.push(item[0]);
                 this.incomeValues.push(item[1]);
               });
-
               this.outlayData.forEach((item) => {
                 this.outlayValues.push(item[1]);
               });
-
               this.beginDate = this.beginMinDate = this.endMinDate = this.getFormattedDate(this.incomeData[0][0].toString());
               this.endDate = this.beginMaxDate = this.endMaxDate = this.getFormattedDate(this.incomeData[this.incomeData.length - 1][0]
                 .toString());
@@ -201,44 +187,32 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
 
   private filterConfig(filterDropdown: NgbDropdown) {
     filterDropdown.close();
-
     this.beginDateValue = this.getStringDate(this.beginDate);
     this.endDateValue = this.getStringDate(this.endDate);
-
     this.chart.chart.destroy();
-
     this.barChartOptions.scales.xAxes[0].ticks.min = this.beginDateValue;
     this.barChartOptions.scales.xAxes[0].ticks.max = this.endDateValue;
-
     const beginIncomeIndex = this.incomeData.findIndex(item => item[0] === this.beginDateValue);
     const endIncomeIndex = this.incomeData.findIndex(item => item[0] === this.endDateValue);
-
     const beginOutlayIndex = this.outlayData.findIndex(item => item[0] === this.beginDateValue);
     const endOutlayIndex = this.outlayData.findIndex(item => item[0] === this.endDateValue);
-
     const incomeData = this.incomeData.slice(beginIncomeIndex, endIncomeIndex + 1);
     const outlayData = this.outlayData.slice(beginOutlayIndex, endOutlayIndex + 1);
-
     const incomeValues = [];
     const outlayValues = [];
-
     incomeData.forEach((item) => {
       incomeValues.push(item[1]);
     });
-
     outlayData.forEach((item) => {
       outlayValues.push(item[1]);
     });
-
     this.barChartOptions.scales.yAxes[0].ticks.max = Math.max(Math.max(...incomeValues), Math.max(...outlayValues)) + 1;
-
     this.chart.ngOnInit();
   }
 
   private getStringDate(date: NgbDateStruct): string {
     const day = (date.day < 10) ? '0' + date.day : date.day;
     const month = (date.month < 10) ? '0' + date.month : date.month;
-
     return date.year + '-' + month + '-' + day;
   }
 
@@ -259,5 +233,4 @@ export class FundsStatisticComponent implements OnInit, OnDestroy {
       this.getFundsByUserIdSubscription.unsubscribe();
     }
   }
-
 }

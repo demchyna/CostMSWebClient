@@ -11,8 +11,7 @@ import {catchError} from 'rxjs/operators';
 @Injectable()
 export class AuthService {
 
-  constructor(private httpClient: HttpClient, private jwtHelper: JwtHelperService ) {
-  }
+  constructor(private httpClient: HttpClient, private jwtHelper: JwtHelperService ) {  }
 
   login(user: User): Observable<any> {
     const requestHeaders = { 'Content-Type': 'application/json' };

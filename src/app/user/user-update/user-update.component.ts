@@ -28,13 +28,11 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
   private userId: number;
   userErrors: Map<string, string> = new Map<string, string>();
 
-
   constructor(public userService: UserService,
               private roleService: RoleService,
               private route: ActivatedRoute,
               private router: Router,
               private breadcrumbService: BreadcrumbService) {
-
     this.paramsUserSubscription = this.route.params.subscribe( params => this.userId = params['id']);
   }
 
@@ -46,7 +44,6 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
       this.user.authorities = data.authorities;
     }
     this.user.description = data.description;
-
     this.updateUserUserSubscription = this.userService.updateUser(this.user)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

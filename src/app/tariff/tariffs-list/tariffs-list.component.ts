@@ -26,6 +26,7 @@ export class TariffsListComponent implements OnInit, OnDestroy {
   deleteTariffSubscription: Subscription;
 
   @Input() categoryId: number;
+
   tariffs: Tariff[] = [];
   nameValue = '';
   rateValue = '';
@@ -37,9 +38,7 @@ export class TariffsListComponent implements OnInit, OnDestroy {
   itemsNumber = 10;
   maxIntegerValue = Number.MAX_SAFE_INTEGER;
   sortedTariffs: Tariff[] = [];
-
   dateFormatter = changeDateFormat;
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private tariffService: TariffService,
@@ -49,7 +48,6 @@ export class TariffsListComponent implements OnInit, OnDestroy {
               private orderPipe: OrderPipe,
               private dialog: MatDialog,
               private breadcrumbService: BreadcrumbService) {
-
     this.sortedTariffs = this.orderPipe.transform(this.tariffs, 'name');
   }
 
@@ -79,13 +77,11 @@ export class TariffsListComponent implements OnInit, OnDestroy {
 
   deleteTariff(tariffId: number, $event) {
     $event.stopPropagation();
-
     this.getTariffByIdSubscription = this.tariffService.getTariffById(tariffId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
           const tariff = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -93,7 +89,6 @@ export class TariffsListComponent implements OnInit, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити тариф з назвою "${tariff.name}"?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteTariffSubscription = this.tariffService.deleteTariff(tariff)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -104,11 +99,9 @@ export class TariffsListComponent implements OnInit, OnDestroy {
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

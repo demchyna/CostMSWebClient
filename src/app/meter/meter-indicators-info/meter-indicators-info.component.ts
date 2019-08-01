@@ -23,8 +23,7 @@ export class MeterIndicatorsInfoComponent implements OnInit, OnDestroy {
   constructor(private meterService: MeterService,
               private route: ActivatedRoute,
               private router: Router,
-              private breadcrumbService: BreadcrumbService) {
-  }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {

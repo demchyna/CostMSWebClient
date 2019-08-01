@@ -11,7 +11,7 @@ import {throwError} from 'rxjs/internal/observable/throwError';
 @Injectable()
 export class UserService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {  }
 
   createUser(user: User): Observable<any> {
     const requestHeaders = { 'Content-Type': 'application/json' };

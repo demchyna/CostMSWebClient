@@ -10,7 +10,7 @@ import {throwError} from 'rxjs/internal/observable/throwError';
 @Injectable()
 export class TariffService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {  }
 
   getTariffById(id: number): Observable<any> {
     return this.httpClient.get<any>(

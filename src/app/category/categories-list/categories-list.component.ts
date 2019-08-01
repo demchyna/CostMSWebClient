@@ -27,11 +27,9 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   deleteCategorySubscription: Subscription;
 
   collapseStatuses: boolean[];
-
   user: User = new User();
   userId: number;
   categories: Category[] = [];
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private categoryService: CategoryService,
@@ -84,13 +82,11 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
 
   deleteCategory(categoryId: number, event) {
     event.stopPropagation();
-
     this.getCategoryByIdSubscription = this.categoryService.getCategoryById(categoryId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
           const category = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -98,7 +94,6 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити категорію з назвою "${category.name}"?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteCategorySubscription = this.categoryService.deleteCategory(category)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -107,11 +102,9 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

@@ -26,9 +26,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
 
   dateFormatter = changeDateFormat;
   timeFormatter = changeTimeFormat;
-
   user: User = new User();
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(protected userService: UserService,
@@ -59,13 +57,11 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(userId: number) {
-
     this.getUserByIdSubscription = this.userService.getUserById(userId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
           const user = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -73,7 +69,6 @@ export class UserInfoComponent implements OnInit, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити користувача "${user.username}"?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteUserUserSubscription = this.userService.deleteUser(user)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -87,11 +82,9 @@ export class UserInfoComponent implements OnInit, OnDestroy {
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

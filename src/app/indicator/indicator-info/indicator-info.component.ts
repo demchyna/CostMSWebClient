@@ -29,11 +29,9 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
   deleteIndicatorSubscription: Subscription;
 
   dateFormatter = changeDateFormat;
-
   indicator: Indicator = new Indicator();
   tariff: Tariff = new Tariff();
   meter: Meter = new Meter();
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private indicatorService: IndicatorService,
@@ -42,7 +40,7 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
-              private breadcrumbService: BreadcrumbService) { }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe( params => {
@@ -54,7 +52,6 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
             this.indicator.price = parseFloat(this.indicator.price.toFixed(2));
             this.breadcrumbService.addFriendlyNameForRouteRegex('/indicator/[0-9]+/info$', 'Показник на ' +
               this.dateFormatter(this.indicator.date));
-
             this.getTariffByIdSubscription = this.tariffService.getTariffById(this.indicator.tariffId)
               .subscribe((tariffResp: HttpResponse<any>) => {
                 if (tariffResp) {
@@ -64,7 +61,6 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
               }, (appError: AppError) => {
                 throw appError;
               });
-
             this.getMeterByIdSubscription = this.meterService.getMeterById(this.indicator.meterId)
               .subscribe((meterResp: HttpResponse<any>) => {
                 if (meterResp) {
@@ -74,7 +70,6 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
               }, (appError: AppError) => {
                 throw appError;
               });
-
           }
         }, (appError: AppError) => {
           throw appError;
@@ -92,7 +87,6 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
         if (response) {
           tokenSetter(response);
           const indicator = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -100,7 +94,6 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити показник за ${this.dateFormatter(indicator.date)}?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -115,7 +108,7 @@ export class IndicatorInfoComponent implements OnInit, OnDestroy {
             }
             this.dialogRef = null;
           });
-      }
+        }
       }, (appError: AppError) => {
         throw appError;
       });

@@ -27,6 +27,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   deleteIndicatorSubscription: Subscription;
 
   @Input() meterProps: Meter;
+
   indicators: Indicator[] = [];
   indicatorDateValue = '';
   tariffRateValue = '';
@@ -40,9 +41,7 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
   itemsNumber = 10;
   maxIntegerValue = Number.MAX_SAFE_INTEGER;
   sortedIndicators: Indicator[] = [];
-
   dateFormatter = changeDateFormat;
-
   dialogRef: MatDialogRef<ConfirmComponent, any>;
 
   constructor(private indicatorService: IndicatorService,
@@ -51,7 +50,6 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
               private orderPipe: OrderPipe,
               private spinnerService: Ng4LoadingSpinnerService,
               private dialog: MatDialog) {
-
     this.sortedIndicators = orderPipe.transform(this.indicators, 'date');
   }
 
@@ -98,13 +96,11 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
 
   deleteIndicator(indicatorId: number, $event) {
     $event.stopPropagation();
-
     this.getIndicatorByIdSubscription = this.indicatorService.getIndicatorById(indicatorId)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
           tokenSetter(response);
           const indicator = response.body;
-
           this.dialogRef = this.dialog.open(ConfirmComponent, {
             disableClose: true,
             autoFocus: false
@@ -112,7 +108,6 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
           this.dialogRef.componentInstance.confirmMessage = `Ви дійсно хоче видалити показник за ${this.dateFormatter(indicator.date)}?`;
           this.dialogRef.afterClosed().subscribe(result => {
             if (result) {
-
               this.deleteIndicatorSubscription = this.indicatorService.deleteIndicator(indicator)
                 .subscribe((deleteResp: HttpResponse<any>) => {
                   if (deleteResp) {
@@ -123,11 +118,9 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
                 }, (appError: AppError) => {
                   throw appError;
                 });
-
             }
             this.dialogRef = null;
           });
-
         }
       }, (appError: AppError) => {
         throw appError;

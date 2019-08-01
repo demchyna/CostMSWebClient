@@ -12,11 +12,12 @@ export class CommonErrorHandler implements ErrorHandler {
   constructor(private injector: Injector, private ngZone: NgZone) {  }
 
   handleError(appError: HttpErrorResponse): void {
-
     const router = this.injector.get(Router);
-
     switch (appError.status) {
-      case 404:
+      case 0:
+        alert('No Network access or Server not work');
+        break;
+      case 401:
         this.errorInfo = <AppError> appError.error;
         alert(this.errorInfo.message);
         this.ngZone.run(() => router.navigate(['home'])).then();
@@ -26,14 +27,17 @@ export class CommonErrorHandler implements ErrorHandler {
         alert(this.errorInfo.message);
         this.ngZone.run(() => router.navigate(['home'])).then();
         break;
-      case 401:
+      case 404:
         this.errorInfo = <AppError> appError.error;
         alert(this.errorInfo.message);
+        this.ngZone.run(() => router.navigate(['home'])).then();
+        break;
+      case 500:
+        alert(appError.message);
         this.ngZone.run(() => router.navigate(['home'])).then();
         break;
       default:
         alert(appError.message);
     }
   }
-
 }

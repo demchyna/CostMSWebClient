@@ -2,7 +2,7 @@
   <form #data="ngForm" (ngSubmit)="signIn(data.value)">
     <mat-card>
       <mat-card-content>
-        <h5>Вхід в Komunalka App</h5>
+        <h5>Вхід в Cost MS</h5>
         <div>
           <label for="username">Ім'я користувача (логін):</label>
           <input type="text" ngModel name="username" class="form-control" [ngClass]="{'is-invalid': userErrors['username']}" id="username" placeholder="Введіть ім'я користувача" required>

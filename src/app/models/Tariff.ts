@@ -11,5 +11,5 @@ export default class Tariff {
     public unitId?: number,
     public unitName?: string,
     public userId?: number
-) {  }
+  ) {  }
 }

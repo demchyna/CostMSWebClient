@@ -31,7 +31,6 @@ export class CategoryUpdateComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private breadcrumbService: BreadcrumbService) {
-
     this.paramsSubscription = this.route.params.subscribe( params => this.categoryId = params['id']);
   }
 
@@ -50,10 +49,8 @@ export class CategoryUpdateComponent implements OnInit, OnDestroy {
   }
 
   updateCategory(data: any): void {
-
     this.category.name = data.name;
     this.category.description = data.description;
-
     this.updateCategorySubscription = this.categoryService.updateCategory(this.category)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

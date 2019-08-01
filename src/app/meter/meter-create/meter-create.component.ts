@@ -36,24 +36,21 @@ export class MeterCreateComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private route: ActivatedRoute,
               private router: Router,
-              private breadcrumbService: BreadcrumbService) { }
+              private breadcrumbService: BreadcrumbService) {  }
 
   ngOnInit() {
-
     this.paramsSubscription = this.route.params.subscribe( params => {
       this.getCategoryByIdSubscription = this.categoryService.getCategoryById(params['id'])
         .subscribe((response: HttpResponse<any>) => {
           if (response) {
             tokenSetter(response);
             this.category = response.body;
-
             this.breadcrumbService.addFriendlyNameForRouteRegex('/.*/[0-9]+/meter/create$', 'Додати лічильник');
           }
         }, (appError: AppError) => {
           throw appError;
         });
     });
-
     this.getAllUnitsSubscription = this.unitService.getAllUnits()
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
@@ -67,17 +64,13 @@ export class MeterCreateComponent implements OnInit, OnDestroy {
 
   createMeter(data: any): void {
     const meter = new Meter();
-
     meter.name = data.name;
     meter.description = data.description;
     meter.categoryId = this.category.id;
-
     if (data.unit) {
       meter.unitId = data.unit.id;
     }
-
     meter.userId = this.category.userId;
-
     this.createMeterSubscription = this.meterService.createMeter(meter)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {

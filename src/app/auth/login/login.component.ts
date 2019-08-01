@@ -16,9 +16,7 @@ import ValidationError from '../../models/ValidationError';
 export class LoginComponent implements OnInit, OnDestroy {
 
   userErrors: Map<string, string> = new Map<string, string>();
-
   hidePassword = true;
-
   loginSubscription: Subscription;
 
   constructor(private authService: AuthService, private router: Router) {  }
@@ -27,7 +25,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     const user = new User;
     user.username = data.username;
     user.password = data.password;
-
     this.loginSubscription = this.authService.login(user)
       .subscribe((response: HttpResponse<any>) => {
         if (response) {
