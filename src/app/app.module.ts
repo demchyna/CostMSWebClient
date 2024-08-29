@@ -115,10 +115,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-
-        // whitelistedDomains: ['localhost:8080'],
-        whitelistedDomains: ['costms.herokuapp.com'],
-
+        whitelistedDomains: ['localhost:5264'],
         blacklistedRoutes: [''],
         skipWhenExpired: true
       }

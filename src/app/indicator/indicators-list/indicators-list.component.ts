@@ -74,8 +74,8 @@ export class IndicatorsListComponent implements OnInit, OnChanges, OnDestroy {
 
   getFullIndicators(): Indicator[] {
     let diff = 0;
-    this.indicators.forEach((value, index) => {
-      diff = diff - value.price + value.payment;
+    this.indicators.sort((a, b) => a.id - b.id).forEach((value, index) => {
+      diff = diff + (value.payment - value.price);
       value.status = diff;
     });
     return this.indicators;

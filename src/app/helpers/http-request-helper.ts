@@ -1,8 +1,6 @@
 import {HttpResponse} from '@angular/common/http';
 
-// export const REST_API_URL = 'http://localhost:8080';
-
-export const REST_API_URL = 'https://costms.herokuapp.com';
+export const REST_API_URL = 'http://localhost:5264';
 
 export function tokenSetter(response: HttpResponse<any>) {
   if (response.headers.has('Authorization')) {
